@@ -1,4 +1,4 @@
-import { Booking, Room } from './types';
+import { Booking, Room } from '../types';
 
 const mockBookings: Booking[] = [
     {
