@@ -76,6 +76,7 @@ export class BookingModel {
     }
 
     static addBooking(booking: Booking): Booking {
+        mockBookings.push(booking);
         return booking;
     }
 
