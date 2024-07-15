@@ -81,8 +81,8 @@ export class BookingModel {
     }
 
     static removeBooking(id: string): Booking[] {
-        const newBookings = mockBookings.filter(booking => booking.id !== id);
-        return newBookings;
+        const updatedBookings = mockBookings.filter(booking => booking.id !== id);
+        return updatedBookings;
     }
 
     static modifyBooking(modifiedBooking: Booking): Booking[] {
