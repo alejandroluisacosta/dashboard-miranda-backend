@@ -3,6 +3,7 @@ interface Comment {
     text: string;
     userName: string;
     timestamp: string;
+    read: boolean;
 }
 
 export default Comment;

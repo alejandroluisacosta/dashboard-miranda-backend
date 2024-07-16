@@ -21,7 +21,7 @@ export class CommentModel {
 
     static modifyComment(modifiedComment: Comment): Comment[] {
         const updatedComments = mockComments.map(comment => 
-            comment.id === modifiedComment.id ? comment = modifiedComment : comment
+            comment.id === modifiedComment.id ? { ...comment, read: !comment.read} : comment
         );
         return updatedComments;
     }
