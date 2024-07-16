@@ -4,6 +4,7 @@ import 'dotenv/config';
 import loginController from './controllers/loginController';
 import roomsController from './controllers/roomsControllers';
 import usersController from './controllers/usersControllers';
+import commentController from './controllers/commentControllers';
 
 process.env.TOKEN_SECRET;
 
@@ -15,6 +16,7 @@ app.use('/login', loginController);
 app.use('/bookings', bookingController);
 app.use('/rooms', roomsController);
 app.use('/users', usersController);
+app.use('/comments', commentController);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
