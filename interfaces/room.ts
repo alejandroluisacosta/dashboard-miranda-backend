@@ -1,5 +1,3 @@
-import Booking from "./booking";
-
 interface Room {
     id: string;
     image: string;
