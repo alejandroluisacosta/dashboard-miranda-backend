@@ -2,8 +2,8 @@ import express from 'express';
 import bookingController from './controllers/bookingControllers';
 import 'dotenv/config';
 import loginController from './controllers/loginController';
-import roomsController from './controllers/roomsControlers';
-import usersController from './controllers/usersControlers';
+import roomsController from './controllers/roomsControllers';
+import usersController from './controllers/usersControllers';
 
 process.env.TOKEN_SECRET;
 
