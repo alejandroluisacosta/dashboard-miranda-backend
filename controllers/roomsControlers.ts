@@ -5,7 +5,7 @@ import { authenticateToken } from '../middleware/auth';
 
 const roomsController = express.Router();
 
-roomsController.get('/',  (_req: Request, res: Response): Response<JSON> => {
+roomsController.get('/', authenticateToken, (_req: Request, res: Response): Response<JSON> => {
     const rooms: Room[] = RoomModel.getRooms();
     return res.json(rooms);
 })
@@ -28,7 +28,7 @@ roomsController.delete('/', authenticateToken, (req: Request, res: Response): Re
     return res.json(updatedRooms);
 })
 
-roomsController.put('/',  (req: Request, res: Response): Response<JSON> => {
+roomsController.put('/', authenticateToken, (req: Request, res: Response): Response<JSON> => {
     const modifiedRoom: Room = req.body;
     const updatedRooms: Room[] = RoomModel.modifyRoom(modifiedRoom);
     return res.json(updatedRooms);

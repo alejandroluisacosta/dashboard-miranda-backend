@@ -5,7 +5,7 @@ import { authenticateToken } from '../middleware/auth';
 
 const usersController = express.Router();
 
-usersController.get('/',  (_req: Request, res: Response): Response<JSON> => {
+usersController.get('/', authenticateToken, (_req: Request, res: Response): Response<JSON> => {
     const users: User[] = UsersModel.getUsers();
     return res.json(users);
 })
