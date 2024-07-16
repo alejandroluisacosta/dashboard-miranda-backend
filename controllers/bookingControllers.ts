@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { BookingModel } from '../services/bookingServices';
-import { Booking } from '../types';
+import Booking from '../interfaces/booking';
 
 const bookingController = express.Router();
 
