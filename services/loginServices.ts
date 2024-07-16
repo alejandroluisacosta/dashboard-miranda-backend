@@ -1,7 +1,4 @@
-import jwt from 'jsonwebtoken';
 import { generateAccessToken } from '../utils/authUtils';
-
-const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
 class LoginModel {
 

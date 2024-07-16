@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
 
 export function generateAccessToken(username: string) {
-    return (jwt.sign( username, process.env.TOKEN_SECRET!, { expiresin: '3000000s' }));
+    return jwt.sign( { name: username }, process.env.TOKEN_SECRET!, { expiresIn: '3000000' } );
 }
