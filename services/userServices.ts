@@ -1,7 +1,7 @@
 import mockUsers from "../data/mockUsers";
 import User from "../interfaces/user";
 
-export class UserModel {
+export class UsersModel {
 
     static getUsers(): User[] {
         return mockUsers;
@@ -24,7 +24,7 @@ export class UserModel {
         return updatedUsers;
     }
 
-    static modifyRoom(modifiedUser: User): User[] {
+    static modifyUser(modifiedUser: User): User[] {
         const updatedUsers = mockUsers.map(User => 
             User.id === modifiedUser.id ? User = modifiedUser : User
         );
