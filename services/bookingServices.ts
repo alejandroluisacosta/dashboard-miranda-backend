@@ -1,4 +1,4 @@
-import mockBookings from "../data/bookings";
+import mockBookings from "../data/mockBookings";
 import Booking from "../interfaces/booking";
 
 export class BookingModel {
@@ -25,10 +25,10 @@ export class BookingModel {
     }
 
     static modifyBooking(modifiedBooking: Booking): Booking[] {
-        mockBookings.map(booking => 
+        const updatedBookings = mockBookings.map(booking => 
             booking.id === modifiedBooking.id ? booking = modifiedBooking : booking
         );
-        return mockBookings;
+        return updatedBookings;
     }
 
   }
