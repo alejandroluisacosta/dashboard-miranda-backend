@@ -1,37 +1,38 @@
 import express, { Request, Response } from 'express';
 import { BookingModel } from '../services/bookingServices';
 import Booking from '../interfaces/booking';
-import { authenticateToken } from '../middleware/auth';
+// import { authenticateToken } from '../middleware/auth';
 
 const bookingController = express.Router();
 
 bookingController.get('/', (_req: Request, res: Response): Response<JSON> => {
     const bookings = BookingModel.getBookings();
-    return res.json(bookings);
+    return res.json({ bookings: bookings });
 })
 
-bookingController.get('/:id', authenticateToken, (req: Request, res: Response): Response<JSON> => {
+bookingController.get('/:id', (req: Request, res: Response): Response<JSON> => {
     const id = req.params.id;
     const booking = BookingModel.getBooking(id);
-    return res.json(booking);
+    return res.json({ booking: booking });
 })
 
-bookingController.post('/', authenticateToken, (req: Request, res: Response): Response<JSON> => {
+bookingController.post('/', (req: Request, res: Response): Response<JSON> => {
     const newBooking = req.body as Booking; // MAS SEGURO QUE const `newBooking: Booking`?
     BookingModel.addBooking(newBooking);
-    return res.json(newBooking);
+    return res.json({ booking: newBooking });
 })
 
-bookingController.delete('/', authenticateToken, (req: Request, res: Response): Response<JSON> => {
+bookingController.delete('/', (req: Request, res: Response): Response<JSON> => {
     const id = req.body.id; // Mejor así o a través de URL?
     const updatedBookings = BookingModel.removeBooking(id);
-    return res.json(updatedBookings);
+    return res.json({ bookings: updatedBookings });
 })
 
-bookingController.put('/', authenticateToken, (req: Request, res: Response): Response<JSON> => {
+bookingController.put('/', (req: Request, res: Response): Response<JSON> => {
     const modifiedBooking = req.body;
     const updatedBookings = BookingModel.modifyBooking(modifiedBooking);
-    return res.json(updatedBookings);
+    console.log(updatedBookings);
+    return res.json({ bookings: updatedBookings });
 })
 
 export default bookingController;
