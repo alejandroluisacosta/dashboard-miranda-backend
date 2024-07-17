@@ -10,8 +10,8 @@ import mustacheExpress from 'mustache-express'
 
 process.env.TOKEN_SECRET;
 
-const app = express();
-const port = 3000;
+export const app = express();
+export const port = 3000;
 
 // PUBLIC ROUTE
 app.use(express.static(path.join(__dirname, 'public')));
@@ -28,7 +28,3 @@ app.use('/bookings', bookingController);
 app.use('/rooms', roomsController);
 app.use('/users', usersController);
 app.use('/comments', commentController);
-
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-})
