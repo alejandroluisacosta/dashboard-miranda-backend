@@ -28,3 +28,6 @@ app.use('/bookings', bookingController);
 app.use('/rooms', roomsController);
 app.use('/users', usersController);
 app.use('/comments', commentController);
+
+
+// module.exports = { app };

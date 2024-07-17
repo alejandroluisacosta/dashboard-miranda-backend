@@ -5,7 +5,7 @@ import { authenticateToken } from '../middleware/auth';
 
 const bookingController = express.Router();
 
-bookingController.get('/', authenticateToken, (_req: Request, res: Response): Response<JSON> => {
+bookingController.get('/', (_req: Request, res: Response): Response<JSON> => {
     const bookings = BookingModel.getBookings();
     return res.json(bookings);
 })
