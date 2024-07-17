@@ -13,12 +13,13 @@ process.env.TOKEN_SECRET;
 const app = express();
 const port = 3000;
 
+// PUBLIC ROUTE
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', './views');
 app.set('view engine', 'mustache');
 app.engine('mustache', mustacheExpress());
 app.get('/public', (_req, res) => {
-    res.render('index', { name: "Mr. Pebbles" });
+    res.render('index');
   })
 
 app.use(express.json());
