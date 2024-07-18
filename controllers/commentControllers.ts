@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import { CommentModel } from '../services/commentServices';
 import Comment from '../interfaces/comment';
-import { authenticateToken } from '../middleware/auth';
 
 const commentController = express.Router();
 

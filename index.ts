@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import bookingController from './controllers/bookingControllers';
 import 'dotenv/config';
@@ -7,7 +7,7 @@ import roomsController from './controllers/roomsControllers';
 import usersController from './controllers/usersControllers';
 import commentController from './controllers/commentControllers';
 import mustacheExpress from 'mustache-express'
-import { authenticateToken } from './middleware/auth';
+// import { authenticateToken } from './middleware/auth';
 
 process.env.TOKEN_SECRET;
 
@@ -26,11 +26,14 @@ app.get('/public', (_req, res) => {
 
 app.use('/login', loginController);
   
-app.use(authenticateToken);
+// app.use(authenticateToken);
 app.use('/bookings', bookingController);
 app.use('/rooms', roomsController);
 app.use('/users', usersController);
 app.use('/comments', commentController);
 
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Unexpected error occurred' });
+});
 
-// module.exports = { app };

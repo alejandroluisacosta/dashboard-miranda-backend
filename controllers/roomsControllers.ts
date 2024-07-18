@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import { RoomModel } from '../services/roomServices';
 import Room from '../interfaces/room';
-import { authenticateToken } from '../middleware/auth';
 
 const roomsController = express.Router();
 

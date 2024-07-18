@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import { UsersModel } from '../services/userServices';
 import User from '../interfaces/user';
-import { authenticateToken } from '../middleware/auth';
 
 const usersController = express.Router();
 

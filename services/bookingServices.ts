@@ -26,7 +26,7 @@ export class BookingModel {
 
     static modifyBooking(modifiedBooking: Booking): Booking[] {
         const updatedBookings = mockBookings.map(booking => 
-            booking.id === modifiedBooking.id ? booking = modifiedBooking : booking
+            booking.id === modifiedBooking.id ? modifiedBooking : booking
         );
         return updatedBookings;
     }
