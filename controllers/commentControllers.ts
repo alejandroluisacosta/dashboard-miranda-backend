@@ -5,9 +5,9 @@ import Comment from '../interfaces/comment';
 const commentController = express.Router();
 
 commentController.get('/', (_req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
-    try{
+    try {
         const comments: Comment[] = CommentModel.getComments();
-        return res.json(comments);
+        return res.json({ comments: comments });
     } catch (error) {
         next(error);
     }
@@ -17,7 +17,7 @@ commentController.get('/:id', (req: Request, res: Response, next: NextFunction):
     try {
         const id: string = req.params.id;
         const comment = CommentModel.getComment(id);
-        return res.json(comment);
+        return res.json({ comment: comment });
     } catch (error) {
         next(error);
     }
@@ -27,7 +27,7 @@ commentController.delete('/', (req: Request, res: Response, next: NextFunction):
     try {
         const id: string = req.body.id;
         const updatedComments: Comment[] = CommentModel.removeComment(id);
-        return res.json(updatedComments);
+        return res.json({ comments: updatedComments });
     } catch (error) {
         next(error);
     }
@@ -37,7 +37,7 @@ commentController.patch('/', (req: Request, res: Response, next: NextFunction): 
     try {
         const modifiedComment: Comment = req.body;
         const updatedComments: Comment[] = CommentModel.modifyComment(modifiedComment);
-        return res.json(updatedComments);
+        return res.json({ comments: updatedComments });
     } catch (error) {
         next(error);
     }

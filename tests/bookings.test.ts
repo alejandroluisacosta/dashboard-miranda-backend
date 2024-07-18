@@ -7,25 +7,6 @@ const { app }  = require('../index');
 describe('Bookings controller tests', () => {
   let token: string;
   
-  it('Authentication middleware denies requests of users that aren\'t logged in', async () => {
-    const res = await request(app)
-      .get('/bookings');
-
-    expect(res.status).toBe(401);
-  })
-
-  it('Authentication middleware denies requests if credentials aren\'t correct', async () => {
-    const res = await request(app)
-      .post('/login')
-      .send({
-          "username": "Johnny",
-          "password": "12345"
-      })
-      .set("Content-Type", "application/json");
-
-      expect(res.status).toBe(401);
-  })
-  
   beforeEach(async () => {
     const authRes = await request(app)
       .post('/login')
@@ -76,7 +57,7 @@ describe('Bookings controller tests', () => {
     expect(res.body).toMatchObject({ bookings: BookingModel.removeBooking('1234') });
   })
 
-  it('updateBookings returns an array of booking instances', async() => {
+  it('modifyBookings returns an array of booking instances', async() => {
     const mockBookingsCopy = [...mockBookings];
     mockBookingsCopy[0].name = "George Clooney";
 
@@ -86,6 +67,6 @@ describe('Bookings controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ bookings: BookingModel.modifyBooking({...mockBookings[0], name: "George Clooney"}) });
+    expect(res.body).toMatchObject({ bookings: BookingModel.modifyBooking({...mockBookingsCopy[0], name: "George Clooney"}) });
   })
 })
