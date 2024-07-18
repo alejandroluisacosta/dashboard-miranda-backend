@@ -47,7 +47,6 @@ bookingController.put('/', (req: Request, res: Response, next: NextFunction): Re
     try {
         const modifiedBooking = req.body;
         const updatedBookings = BookingModel.modifyBooking(modifiedBooking);
-        console.log(updatedBookings);
         return res.json({ bookings: updatedBookings });
     } catch (error) {
         next(error);

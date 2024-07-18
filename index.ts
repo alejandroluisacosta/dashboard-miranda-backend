@@ -7,7 +7,7 @@ import roomsController from './controllers/roomsControllers';
 import usersController from './controllers/usersControllers';
 import commentController from './controllers/commentControllers';
 import mustacheExpress from 'mustache-express'
-// import { authenticateToken } from './middleware/auth';
+import { authenticateToken } from './middleware/auth';
 
 process.env.TOKEN_SECRET;
 
@@ -26,7 +26,7 @@ app.get('/public', (_req, res) => {
 
 app.use('/login', loginController);
   
-// app.use(authenticateToken);
+app.use(authenticateToken);
 app.use('/bookings', bookingController);
 app.use('/rooms', roomsController);
 app.use('/users', usersController);
