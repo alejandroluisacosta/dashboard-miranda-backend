@@ -7,11 +7,13 @@ import roomsController from './controllers/roomsControllers';
 import usersController from './controllers/usersControllers';
 import commentController from './controllers/commentControllers';
 import mustacheExpress from 'mustache-express'
+import { authenticateToken } from './middleware/auth';
 
 process.env.TOKEN_SECRET;
 
 export const app = express();
 export const port = 3000;
+app.use(express.json());
 
 // PUBLIC ROUTE
 app.use(express.static(path.join(__dirname, 'public')));
@@ -22,8 +24,9 @@ app.get('/public', (_req, res) => {
     res.render('index');
   })
 
-app.use(express.json());
 app.use('/login', loginController);
+  
+app.use(authenticateToken);
 app.use('/bookings', bookingController);
 app.use('/rooms', roomsController);
 app.use('/users', usersController);

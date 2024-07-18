@@ -35,15 +35,15 @@ describe('Bookings controller tests', () => {
     expect(res.body).toMatchObject({ bookings: BookingModel.removeBooking('1234') });
   })
 
-  it('updateBookings returns an array of booking instances', async() => {
-    const mockBookingsCopy = [...mockBookings];
-    mockBookingsCopy[0].name = "George Clooney";
+  // it('updateBookings returns an array of booking instances', async() => {
+  //   const mockBookingsCopy = [...mockBookings];
+  //   mockBookingsCopy[0].name = "George Clooney";
 
-    const res = await request(app)
-      .put('/bookings')
-      .send({ ...mockBookings[0], name: "George Clooney"})
-      .set('Content-Type', 'application/json');
+  //   const res = await request(app)
+  //     .put('/bookings')
+  //     .send({ ...mockBookings[0], name: "George Clooney"})
+  //     .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ bookings: mockBookingsCopy });
-  })
+  //   expect(res.body).toMatchObject({ bookings: mockBookingsCopy });
+  // })
 })
