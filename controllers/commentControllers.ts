@@ -1,30 +1,46 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { CommentModel } from '../services/commentServices';
 import Comment from '../interfaces/comment';
 
 const commentController = express.Router();
 
-commentController.get('/', (_req: Request, res: Response): Response<JSON> => {
-    const comments: Comment[] = CommentModel.getComments();
-    return res.json(comments);
+commentController.get('/', (_req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+    try{
+        const comments: Comment[] = CommentModel.getComments();
+        return res.json(comments);
+    } catch (error) {
+        next(error);
+    }
 })
 
-commentController.get('/:id', (req: Request, res: Response): Response<JSON> => {
-    const id: string = req.params.id;
-    const comment = CommentModel.getComment(id);
-    return res.json(comment);
+commentController.get('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+    try {
+        const id: string = req.params.id;
+        const comment = CommentModel.getComment(id);
+        return res.json(comment);
+    } catch (error) {
+        next(error);
+    }
 })
 
-commentController.delete('/', (req: Request, res: Response): Response<JSON> => {
-    const id: string = req.body.id;
-    const updatedComments: Comment[] = CommentModel.removeComment(id);
-    return res.json(updatedComments);
+commentController.delete('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+    try {
+        const id: string = req.body.id;
+        const updatedComments: Comment[] = CommentModel.removeComment(id);
+        return res.json(updatedComments);
+    } catch (error) {
+        next(error);
+    }
 })
 
-commentController.patch('/', (req: Request, res: Response): Response<JSON> => {
-    const modifiedComment: Comment = req.body;
-    const updatedComments: Comment[] = CommentModel.modifyComment(modifiedComment);
-    return res.json(updatedComments);
+commentController.patch('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+    try {
+        const modifiedComment: Comment = req.body;
+        const updatedComments: Comment[] = CommentModel.modifyComment(modifiedComment);
+        return res.json(updatedComments);
+    } catch (error) {
+        next(error);
+    }
 })
 
 export default commentController;
