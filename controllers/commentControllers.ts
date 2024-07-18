@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { CommentModel } from '../services/commentServices';
-import Comment from '../interfaces/comment';
+import Comment from '../interfaces/Comment';
 
 const commentController = express.Router();
 

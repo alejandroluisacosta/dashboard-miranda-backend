@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { UserModel } from '../services/userServices';
-import User from '../interfaces/user';
+import User from '../interfaces/User';
 
 const usersController = express.Router();
 

@@ -1,5 +1,5 @@
 import mockRooms from "../data/mockRooms";
-import Room from "../interfaces/room";
+import Room from "../interfaces/Room";
 
 export class RoomModel {
 

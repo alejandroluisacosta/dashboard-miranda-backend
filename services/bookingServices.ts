@@ -1,5 +1,5 @@
 import mockBookings from "../data/mockBookings";
-import Booking from "../interfaces/booking";
+import Booking from "../interfaces/Booking";
 
 export class BookingModel {
 

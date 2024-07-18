@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { BookingModel } from '../services/bookingServices';
-import Booking from '../interfaces/booking';
+import Booking from '../interfaces/Booking';
 
 const bookingController = express.Router();
 

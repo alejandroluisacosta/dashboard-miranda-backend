@@ -1,5 +1,5 @@
 import mockComments from "../data/mockComments";
-import Comment from "../interfaces/comment";
+import Comment from "../interfaces/Comment";
 
 export class CommentModel {
 

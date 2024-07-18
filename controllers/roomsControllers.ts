@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { RoomModel } from '../services/roomServices';
-import Room from '../interfaces/room';
+import Room from '../interfaces/Room';
 
 const roomsController = express.Router();
 

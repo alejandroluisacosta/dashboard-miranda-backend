@@ -1,4 +1,4 @@
-import Room from "../interfaces/room";
+import Room from "../interfaces/Room";
 
 const mockRooms: Room[] = [
     {

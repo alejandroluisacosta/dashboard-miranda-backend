@@ -1,5 +1,5 @@
 import mockUsers from "../data/mockUsers";
-import User from "../interfaces/user";
+import User from "../interfaces/User";
 
 export class UserModel {
 

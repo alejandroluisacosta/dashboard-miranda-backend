@@ -1,5 +1,5 @@
-import Room from "../interfaces/room";
-import Booking from "../interfaces/booking";
+import Room from "../interfaces/Room";
+import Booking from "../interfaces/Booking";
 
 const mockBookings: Booking[] = [
     {
