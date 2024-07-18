@@ -1,13 +1,13 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { UsersModel } from '../services/userServices';
+import { UserModel } from '../services/userServices';
 import User from '../interfaces/user';
 
 const usersController = express.Router();
 
 usersController.get('/', (_req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
     try {
-        const users: User[] = UsersModel.getUsers();
-        return res.json(users);
+        const users: User[] = UserModel.getUsers();
+        return res.json({ users: users });
     } catch (error) {
         next(error);
     }
@@ -16,8 +16,8 @@ usersController.get('/', (_req: Request, res: Response, next: NextFunction): Res
 usersController.get('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
     try {
         const id: string = req.params.id;
-        const user = UsersModel.getUser(id);
-        return res.json(user);
+        const user = UserModel.getUser(id);
+        return res.json({ user: user });
     } catch (error) {
         next(error);
     }
@@ -26,8 +26,8 @@ usersController.get('/:id', (req: Request, res: Response, next: NextFunction): R
 usersController.post('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
     try {
         const newUser: User = req.body as User;
-        UsersModel.addUser(newUser);
-        return res.json(newUser);
+        UserModel.addUser(newUser);
+        return res.json({ user: newUser });
     } catch (error) {
         next(error);
     }
@@ -36,8 +36,8 @@ usersController.post('/', (req: Request, res: Response, next: NextFunction): Res
 usersController.delete('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
     try {
         const id: string = req.body.id;
-        const updatedUsers: User[] = UsersModel.removeUser(id);
-        return res.json(updatedUsers);
+        const updatedUsers: User[] = UserModel.removeUser(id);
+        return res.json({ users: updatedUsers });
     } catch (error) {
         next(error);
     }
@@ -46,8 +46,8 @@ usersController.delete('/', (req: Request, res: Response, next: NextFunction): R
 usersController.put('/',  (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
     try {
         const modifiedUser: User = req.body;
-        const updatedUsers: User[] = UsersModel.modifyUser(modifiedUser);
-        return res.json(updatedUsers);
+        const updatedUsers: User[] = UserModel.modifyUser(modifiedUser);
+        return res.json({ users: updatedUsers });
     } catch (error) {
         next(error);
     }
