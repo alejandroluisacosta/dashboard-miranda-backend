@@ -43,7 +43,7 @@ bookingController.delete('/:id', (req: Request, res: Response, next: NextFunctio
     }
 });
 
-bookingController.put('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+bookingController.put('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
     try {
         const modifiedBooking = req.body;
         const updatedBookings = BookingModel.modifyBooking(modifiedBooking);

@@ -23,9 +23,9 @@ commentController.get('/:id', (req: Request, res: Response, next: NextFunction):
     }
 })
 
-commentController.delete('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+commentController.delete('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
     try {
-        const id: string = req.body.id;
+        const id: string = req.params.id;
         const updatedComments: Comment[] = CommentModel.removeComment(id);
         return res.json({ comments: updatedComments });
     } catch (error) {
