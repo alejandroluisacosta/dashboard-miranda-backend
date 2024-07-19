@@ -33,9 +33,9 @@ usersController.post('/', (req: Request, res: Response, next: NextFunction): Res
     }
 })
 
-usersController.delete('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
+usersController.delete('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
     try {
-        const id: string = req.body.id;
+        const id: string = req.params.id;
         const updatedUsers: User[] = UserModel.removeUser(id);
         return res.json({ users: updatedUsers });
     } catch (error) {
@@ -43,7 +43,7 @@ usersController.delete('/', (req: Request, res: Response, next: NextFunction): R
     }
 })
 
-usersController.put('/',  (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
+usersController.put('/:id',  (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
     try {
         const modifiedUser: User = req.body;
         const updatedUsers: User[] = UserModel.modifyUser(modifiedUser);
