@@ -35,7 +35,7 @@ bookingController.post('/', (req: Request, res: Response, next: NextFunction): R
 
 bookingController.delete('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
     try {
-        const id = req.params;
+        const id = req.params.id;
         const updatedBookings = BookingModel.removeBooking(id);
         return res.json({ bookings: updatedBookings });
     } catch (error) {
