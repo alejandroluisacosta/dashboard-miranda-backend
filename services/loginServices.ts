@@ -13,7 +13,7 @@ class LoginModel {
             const token = generateAccessToken(placeholderUser.userName);
             return token;
         } else {
-            throw new Error('No user found');
+            throw new Error('Invalid credentials');
         }
     }
 }
