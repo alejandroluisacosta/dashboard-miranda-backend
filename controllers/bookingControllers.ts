@@ -33,9 +33,9 @@ bookingController.post('/', (req: Request, res: Response, next: NextFunction): R
     }
 });
 
-bookingController.delete('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
+bookingController.delete('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
     try {
-        const id = req.body.id;
+        const id = req.params;
         const updatedBookings = BookingModel.removeBooking(id);
         return res.json({ bookings: updatedBookings });
     } catch (error) {
@@ -43,7 +43,7 @@ bookingController.delete('/', (req: Request, res: Response, next: NextFunction):
     }
 });
 
-bookingController.put('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+bookingController.put('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
     try {
         const modifiedBooking = req.body;
         const updatedBookings = BookingModel.modifyBooking(modifiedBooking);
