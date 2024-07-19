@@ -33,7 +33,7 @@ commentController.delete('/:id', (req: Request, res: Response, next: NextFunctio
     }
 })
 
-commentController.patch('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+commentController.patch('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
     try {
         const modifiedComment: Comment = req.body;
         const updatedComments: Comment[] = CommentModel.modifyComment(modifiedComment);

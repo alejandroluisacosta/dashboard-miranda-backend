@@ -33,9 +33,9 @@ roomsController.post('/', (req: Request, res: Response, next: NextFunction): Res
     }
 })
 
-roomsController.delete('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+roomsController.delete('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
     try {
-        const id: string = req.body.id;
+        const id: string = req.params.id;
         const updatedRooms: Room[] = RoomModel.removeRoom(id);
         return res.json({ rooms: updatedRooms });
     } catch (error) {
@@ -43,7 +43,7 @@ roomsController.delete('/', (req: Request, res: Response, next: NextFunction): R
     }
 })
 
-roomsController.put('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+roomsController.put('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
     try {
         const modifiedRoom: Room = req.body;
         const updatedRooms: Room[] = RoomModel.modifyRoom(modifiedRoom);
