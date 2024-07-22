@@ -6,7 +6,7 @@ interface Room {
     amenities: string;
     rate: number;
     offer: string
-    discount: number;
+    discount?: number;
     description?: string;
     status: 'Available' | 'Booked';
     cancellationPolicies?: string;
