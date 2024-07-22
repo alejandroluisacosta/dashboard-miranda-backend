@@ -6,7 +6,7 @@ interface Booking {
     orderDate: string;
     checkInDate: string;
     checkOutDate: string;
-    specialRequest: string;
+    specialRequest?: string;
     roomType: string;
     status: string;
     room: Room;
