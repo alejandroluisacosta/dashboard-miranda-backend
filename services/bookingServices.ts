@@ -22,12 +22,12 @@ export class BookingServices {
         return newBooking;
     }
 
-    static removeBooking(id: string): void {
-        BookingModel.findByIdAndDelete(id);
+    static async removeBooking(id: string): Promise<void> {
+       await BookingModel.findByIdAndDelete(id);
     }
 
-    static modifyBooking(modifiedBooking: Booking): Booking {
-        BookingModel.findByIdAndUpdate(modifiedBooking.id, modifiedBooking);
+    static async modifyBooking(modifiedBooking: Booking): Promise<Booking> {
+        await BookingModel.findByIdAndUpdate(modifiedBooking.id, modifiedBooking);
         return modifiedBooking;
     }
 
