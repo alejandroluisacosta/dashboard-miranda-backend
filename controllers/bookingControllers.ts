@@ -4,50 +4,50 @@ import Booking from '../interfaces/Booking';
 
 const bookingController = express.Router();
 
-bookingController.get('/', (_req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
+bookingController.get('/', async (_req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
-        const bookings = BookingServices.getBookings();
-        return res.json({ bookings: bookings });
+        const bookings: Booking[] = await BookingServices.getBookings();
+        return res.status(200).json({ bookings });
     } catch (error) {
         next(error);
     }
 });
 
-bookingController.get('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
-    try {
-        const id = req.params.id;
-        const booking = BookingServices.getBooking(id);
-        return res.json({ booking: booking });
-    } catch (error) {
-        next(error);
-    }
-});
-
-bookingController.post('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
-    try {
-        const newBooking = req.body as Booking;
-        BookingServices.addBooking(newBooking);
-        return res.json({ booking: newBooking });
-    } catch (error) {
-        next(error);
-    }
-});
-
-bookingController.delete('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
+bookingController.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
         const id = req.params.id;
-        const updatedBookings = BookingServices.removeBooking(id);
-        return res.json({ bookings: updatedBookings });
+        const booking = await BookingServices.getBooking(id);
+        return res.status(200).json({ booking });
     } catch (error) {
         next(error);
     }
 });
 
-bookingController.put('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
+bookingController.post('/', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
+    try {
+        const rawNewBooking = req.body as Booking;
+        const newBooking = await BookingServices.addBooking(rawNewBooking);
+        return res.status(201).json({ booking: newBooking });
+    } catch (error) {
+        next(error);
+    }
+});
+
+bookingController.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
+    try {
+        const id = req.params.id;
+        await BookingServices.removeBooking(id);
+        return res.status(204).send(); 
+    } catch (error) {
+        next(error);
+    }
+});
+
+bookingController.put('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
         const modifiedBooking = req.body;
-        const updatedBookings = BookingServices.modifyBooking(modifiedBooking);
-        return res.json({ bookings: updatedBookings });
+        const updatedBooking = await BookingServices.modifyBooking(modifiedBooking);
+        return res.status(200).json({ booking: updatedBooking });
     } catch (error) {
         next(error);
     }
