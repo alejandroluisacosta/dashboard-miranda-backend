@@ -1,6 +1,6 @@
 import { generateAccessToken } from '../utils/authUtils';
 
-class LoginModel {
+class LoginServices {
 
     static authenticateUser(username: string, password: string): string {
         
@@ -18,4 +18,4 @@ class LoginModel {
     }
 }
 
-export default LoginModel;
+export default LoginServices;

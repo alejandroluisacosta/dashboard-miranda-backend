@@ -1,7 +1,7 @@
 import mockBookings from "../data/mockBookings";
 import Booking from "../interfaces/Booking";
 
-export class BookingModel {
+export class BookingServices {
 
     static getBookings(): Booking[] {
         return mockBookings;

@@ -1,12 +1,12 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { CommentModel } from '../services/commentServices';
+import { CommentServices } from '../services/commentServices';
 import Comment from '../interfaces/Comment';
 
 const commentController = express.Router();
 
 commentController.get('/', (_req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
     try {
-        const comments: Comment[] = CommentModel.getComments();
+        const comments: Comment[] = CommentServices.getComments();
         return res.json({ comments: comments });
     } catch (error) {
         next(error);
@@ -16,7 +16,7 @@ commentController.get('/', (_req: Request, res: Response, next: NextFunction): R
 commentController.get('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
     try {
         const id: string = req.params.id;
-        const comment = CommentModel.getComment(id);
+        const comment = CommentServices.getComment(id);
         return res.json({ comment: comment });
     } catch (error) {
         next(error);
@@ -26,7 +26,7 @@ commentController.get('/:id', (req: Request, res: Response, next: NextFunction):
 commentController.delete('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
     try {
         const id: string = req.params.id;
-        const updatedComments: Comment[] = CommentModel.removeComment(id);
+        const updatedComments: Comment[] = CommentServices.removeComment(id);
         return res.json({ comments: updatedComments });
     } catch (error) {
         next(error);
@@ -36,7 +36,7 @@ commentController.delete('/:id', (req: Request, res: Response, next: NextFunctio
 commentController.patch('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
     try {
         const modifiedComment: Comment = req.body;
-        const updatedComments: Comment[] = CommentModel.modifyComment(modifiedComment);
+        const updatedComments: Comment[] = CommentServices.modifyComment(modifiedComment);
         return res.json({ comments: updatedComments });
     } catch (error) {
         next(error);

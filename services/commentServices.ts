@@ -1,7 +1,7 @@
 import mockComments from "../data/mockComments";
 import Comment from "../interfaces/Comment";
 
-export class CommentModel {
+export class CommentServices {
 
     static getComments(): Comment[] {
         return mockComments;

@@ -1,7 +1,7 @@
 import mockUsers from "../data/mockUsers";
 import User from "../interfaces/User";
 
-export class UserModel {
+export class UserServices {
 
     static getUsers(): User[] {
         return mockUsers;

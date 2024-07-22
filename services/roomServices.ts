@@ -1,7 +1,7 @@
 import mockRooms from "../data/mockRooms";
 import Room from "../interfaces/Room";
 
-export class RoomModel {
+export class RoomServices {
 
     static getRooms(): Room[] {
         return mockRooms;
