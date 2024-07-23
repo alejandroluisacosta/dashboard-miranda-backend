@@ -17,7 +17,7 @@ commentController.get('/:id', async (req: Request, res: Response, next: NextFunc
     try {
         const id: string = req.params.id;
         const comment = CommentServices.getComment(id);
-        return res.json({ comment: comment });
+        return res.status(200).json({ comment: comment });
     } catch (error) {
         next(error);
     }
@@ -37,7 +37,7 @@ commentController.patch('/:id', async (req: Request, res: Response, next: NextFu
     try {
         const modifiedComment: Comment = req.body;
         const updatedComment: Comment = await CommentServices.modifyComment(modifiedComment);
-        return res.json({ comment: updatedComment });
+        return res.status(200).json({ comment: updatedComment });
     } catch (error) {
         next(error);
     }

@@ -15,7 +15,7 @@ bookingController.get('/', async (_req: Request, res: Response, next: NextFuncti
 
 bookingController.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
-        const id = req.params.id;
+        const id: string = req.params.id;
         const booking = await BookingServices.getBooking(id);
         return res.status(200).json({ booking });
     } catch (error) {
@@ -25,9 +25,9 @@ bookingController.get('/:id', async (req: Request, res: Response, next: NextFunc
 
 bookingController.post('/', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
-        const rawNewBooking = req.body as Booking;
-        const newBooking = await BookingServices.addBooking(rawNewBooking);
-        return res.status(201).json({ booking: newBooking });
+        const newBooking: Booking = req.body as Booking;
+        const addedBooking = await BookingServices.addBooking(newBooking);
+        return res.status(201).json({ booking: addedBooking });
     } catch (error) {
         next(error);
     }
@@ -35,7 +35,7 @@ bookingController.post('/', async (req: Request, res: Response, next: NextFuncti
 
 bookingController.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
-        const id = req.params.id;
+        const id: string = req.params.id;
         await BookingServices.removeBooking(id);
         return res.status(204).send(); 
     } catch (error) {
@@ -45,8 +45,8 @@ bookingController.delete('/:id', async (req: Request, res: Response, next: NextF
 
 bookingController.put('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
-        const modifiedBooking = req.body;
-        const updatedBooking = await BookingServices.modifyBooking(modifiedBooking);
+        const modifiedBooking: Booking = req.body;
+        const updatedBooking: Booking = await BookingServices.modifyBooking(modifiedBooking);
         return res.status(200).json({ booking: updatedBooking });
     } catch (error) {
         next(error);

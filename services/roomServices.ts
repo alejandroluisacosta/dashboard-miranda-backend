@@ -1,4 +1,3 @@
-import mockRooms from "../data/mockRooms";
 import Room from "../interfaces/Room";
 import RoomModel from '../models/Room';
 
