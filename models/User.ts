@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
+import User from '../interfaces/User'
 
-const UserSchema = new Schema({
+const UserSchema = new Schema<User>({
     name: { type: String, required: true },
     image: { type: String, required: true },
     incorporatedOn: { type: String, required: true },
