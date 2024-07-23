@@ -13,7 +13,7 @@ commentController.get('/', async (_req: Request, res: Response, next: NextFuncti
     }
 })
 
-commentController.get('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+commentController.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const id: string = req.params.id;
         const comment = CommentServices.getComment(id);

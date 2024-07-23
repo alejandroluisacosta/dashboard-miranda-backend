@@ -1,4 +1,3 @@
-// import mockBookings from "../data/mockBookings";
 import Booking from "../interfaces/Booking";
 import BookingModel from '../models/Booking';
 
