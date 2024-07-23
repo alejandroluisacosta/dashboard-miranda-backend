@@ -1,20 +1,69 @@
 import { faker } from '@faker-js/faker'
-// import User from './interfaces/User';
+import User from './interfaces/User';
 import { UserServices } from './services/userServices';
 import { connectDB } from './db';
+import Booking from './interfaces/Booking';
+import { BookingServices } from './services/bookingServices';
+import { RoomServices } from './services/roomServices';
+import Room from './interfaces/Room';
 
+const NUM_BOOKINGS = 200;
+const NUM_COMMENTS = 50;
 const NUM_USERS = 20;
+const NUM_ROOMS = 5;
 
 connectDB().catch(err => console.log(err));
 
 const run = async () => {
+    const createdBookings = [];
+    const createdComments = [];
+    const createdRooms = [];
     const createdUsers = [];
+
+
+    const allAmenities = ["Gym", "Pool", "Jacuzzi", "Room Service", "TV", "Hot Water"];
+    const getRandomAmenities(maxItems: number): string[] => {
+        const shuffled = allAmenities.sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, maxItems);
+    }
+
+    for (let i = 0; i < NUM_ROOMS; i++) {
+        const roomData: Room = {
+            image: [faker.image.url()],
+            name: faker.person.fullName(),
+            roomType: faker.lorem.sentence(3),
+            amenities: getRandomAmenities(4),
+            rate: faker.number.int(99),
+            offer: Math.random() < 0.5 ? 'Yes' : 'No',
+            discount: faker.number.int(99),
+            description: faker.lorem.sentence(6),
+            status: Math.random() < 0.5 ? 'Available' : 'Booked',
+            cancellationPolicies: faker.lorem.sentence(4),
+          }
+          const newRoom = await RoomServices.addRoom(roomData);
+          createdRooms.push(newRoom);
+        }
+
+    for (let i = 0; i < NUM_BOOKINGS; i++) {
+        const bookingData: Booking = {
+            name: faker.person.fullName(),
+            orderDate: faker.date.between({ from: '2020-01-01T00:00:00.000Z', to: '2024-07-23T00:00:00.000Z' }).toString().split('T')[0],
+            checkInDate: faker.date.between({ from: '2020-01-01T00:00:00.000Z', to: '2024-10-23T00:00:00.000Z' }).toString().split('T')[0],
+            checkOutDate: faker.date.between({ from: '2020-01-01T00:00:00.000Z', to: '2024-10-23T00:00:00.000Z' }).toString().split('T')[0],
+            specialRequest: faker.lorem.sentence(6),
+            roomType: faker.lorem.sentence(3),
+            status: Math.random() < 0.5 ? 'Check-In' : 'Check-Out',
+            room: await RoomServices.getRoom(id),
+        }
+        const newBooking = await BookingServices.addBooking(bookingData);
+        createdBookings.push(newBooking);
+    }
 
     for (let i = 0; i < NUM_USERS; i++) {
         const userData = {
-            name: faker.person.firstName(),
+            name: faker.person.fullName(),
             userName: faker.internet.userName(),
-            image: 'image',
+            image: faker.image.url(),
             incorporatedOn: '01-01-24',
             jobDesk: faker.lorem.sentence(4),
             schedule: 'Monday - Friday',
@@ -27,7 +76,6 @@ const run = async () => {
         const newUser = await UserServices.addUser(userData);
         createdUsers.push(newUser);
     }
-
 }
 
 run();

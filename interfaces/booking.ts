@@ -2,7 +2,7 @@
 
   interface Booking {
       name: string;
-      id: string;
+      id?: string;
       orderDate: string;
       checkInDate: string;
       checkOutDate: string;
