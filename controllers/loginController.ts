@@ -3,9 +3,9 @@ import LoginServices from '../services/loginServices';
 
 const loginController = express.Router();
 
-loginController.post('/', (req: Request, res: Response) => {
+loginController.post('/', async (req: Request, res: Response) => {
     try {
-    const token: string = LoginServices.authenticateUser(req.body.username, req.body.password);
+    const token: string = await LoginServices.authenticateUser(req.body);
     if (token)
         res.json({ token });
     }

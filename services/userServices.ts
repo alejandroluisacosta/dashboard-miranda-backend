@@ -1,5 +1,6 @@
 import User from "../interfaces/User";
 import UserModel from '../models/User';
+import bcrypt from 'bcrypt';
 
 export class UserServices {
 
@@ -17,6 +18,10 @@ export class UserServices {
 
     static async addUser(user: User): Promise<User> {
         const newUser = new UserModel(user);
+        const plainTextPassword: string = newUser.password;
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(plainTextPassword, saltRounds);
+        newUser.password = hashedPassword;
         await newUser.save();
         return newUser;
     }
