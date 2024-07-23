@@ -16,7 +16,7 @@ export class BookingServices {
     }
 
     static async addBooking(booking: Booking): Promise<Booking> {
-        const newBooking= new BookingModel(booking);
+        const newBooking = new BookingModel(booking);
         await newBooking.save();
         return newBooking;
     }
@@ -29,5 +29,4 @@ export class BookingServices {
         await BookingModel.findByIdAndUpdate(modifiedBooking.id, modifiedBooking);
         return modifiedBooking;
     }
-
   }

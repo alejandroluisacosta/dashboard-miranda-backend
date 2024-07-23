@@ -20,8 +20,7 @@ export class CommentServices {
     }
 
     static async modifyComment(modifiedComment: Comment): Promise<Comment> {
-        const updatedComment = CommentModel.findOneAndUpdate(modifiedComment, { read: !modifiedComment.read });
-        return updatedComment;
+        await CommentModel.findOneAndUpdate(modifiedComment, { read: !modifiedComment.read });
+        return modifiedComment;
     }
-
   }
