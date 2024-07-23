@@ -1,14 +1,17 @@
 import { faker } from '@faker-js/faker'
-import User from './interfaces/User';
+// import User from './interfaces/User';
 import { UserServices } from './services/userServices';
+import { connectDB } from './db';
 
 const NUM_USERS = 20;
+
+connectDB().catch(err => console.log(err));
 
 const run = async () => {
     const createdUsers = [];
 
     for (let i = 0; i < NUM_USERS; i++) {
-        const userData: User = {
+        const userData = {
             name: faker.person.firstName(),
             userName: faker.internet.userName(),
             image: 'image',
@@ -20,7 +23,6 @@ const run = async () => {
             role: faker.person.jobTitle(),
             email: faker.internet.email(),
             password: faker.internet.password(),
-            id: '0',
         }
         const newUser = await UserServices.addUser(userData);
         createdUsers.push(newUser);

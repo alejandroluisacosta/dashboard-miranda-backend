@@ -1,7 +1,7 @@
 interface User {
     name: string;
     userName: string;
-    id: string;
+    id?: string;
     image: string;
     incorporatedOn: string;
     jobDesk: string;
