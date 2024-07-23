@@ -5,19 +5,19 @@ import BookingModel from '../models/Booking';
 export class BookingServices {
 
     static async getBookings(): Promise<Booking[]> {
-        const allBookings =  await BookingModel.find().exec();
+        const allBookings: Booking[] =  await BookingModel.find().exec();
         return allBookings;
     }
 
     static async getBooking(id: string): Promise<Booking> {
-        const booking = await BookingModel.findById(id);
+        const booking: Booking | null = await BookingModel.findById(id);
         if (!booking)
             throw new Error('No booking found');
         return booking;
     }
 
     static async addBooking(booking: Booking): Promise<Booking> {
-        const newBooking = new BookingModel(booking);
+        const newBooking= new BookingModel(booking);
         await newBooking.save();
         return newBooking;
     }
