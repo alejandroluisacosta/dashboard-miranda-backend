@@ -1,10 +1,12 @@
 import mockRooms from "../data/mockRooms";
 import Room from "../interfaces/Room";
+import RoomModel from '../models/Room';
 
 export class RoomServices {
 
-    static getRooms(): Room[] {
-        return mockRooms;
+    static async getRooms(): Promise<Room[]> {
+        const allRooms: Room[] = await RoomModel.find().exec();
+        return allRooms;
     }
 
     static getRoom(id: string): Room {
