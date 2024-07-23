@@ -4,10 +4,10 @@ import Comment from '../interfaces/Comment';
 
 const commentController = express.Router();
 
-commentController.get('/', (_req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+commentController.get('/', async (_req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
-        const comments: Comment[] = CommentServices.getComments();
-        return res.json({ comments: comments });
+        const comments: Comment[] = await CommentServices.getComments();
+        return res.status(200).json({ comments: comments });
     } catch (error) {
         next(error);
     }
@@ -23,21 +23,21 @@ commentController.get('/:id', (req: Request, res: Response, next: NextFunction):
     }
 })
 
-commentController.delete('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+commentController.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const id: string = req.params.id;
-        const updatedComments: Comment[] = CommentServices.removeComment(id);
-        return res.json({ comments: updatedComments });
+        await CommentServices.removeComment(id);
+        return res.status(204).send();
     } catch (error) {
         next(error);
     }
 })
 
-commentController.patch('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+commentController.patch('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const modifiedComment: Comment = req.body;
-        const updatedComments: Comment[] = CommentServices.modifyComment(modifiedComment);
-        return res.json({ comments: updatedComments });
+        const updatedComment: Comment = await CommentServices.modifyComment(modifiedComment);
+        return res.json({ comment: updatedComment });
     } catch (error) {
         next(error);
     }
