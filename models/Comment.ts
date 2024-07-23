@@ -8,6 +8,6 @@ const CommentSchema = new Schema<Comment>({
     read: { type: Boolean, required: true },
 });
 
-const CommentModel = mongoose.model('CommentModel', CommentSchema);
+const CommentModel = mongoose.model('CommentModel', CommentSchema, 'comments');
 
 export default CommentModel;

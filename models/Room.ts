@@ -14,6 +14,6 @@ const RoomSchema = new Schema<Room>({
     cancellationPolicies: { type: String, required: false },
 })
 
-const RoomModel = mongoose.model('RoomModel', RoomSchema);
+const RoomModel = mongoose.model('RoomModel', RoomSchema, 'rooms');
 
 export default RoomModel;

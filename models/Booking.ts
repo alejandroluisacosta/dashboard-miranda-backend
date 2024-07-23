@@ -12,6 +12,6 @@ const BookingSchema = new Schema<Booking>({
     room: { type: Schema.Types.ObjectId, ref: 'RoomModel', required: true},
 })
 
-const BookingModel = mongoose.model<Booking>('BookingModel', BookingSchema);
+const BookingModel = mongoose.model<Booking>('BookingModel', BookingSchema, 'bookings');
 
 export default BookingModel;
