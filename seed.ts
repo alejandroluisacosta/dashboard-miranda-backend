@@ -8,11 +8,12 @@ import { RoomServices } from './services/roomServices';
 import Room from './interfaces/Room';
 import Comment from './interfaces/Comment';
 import CommentModel from './models/Comment';
+import RoomModel from './models/Room';
 
 const NUM_BOOKINGS = 200;
 const NUM_COMMENTS = 50;
 const NUM_USERS = 20;
-const NUM_ROOMS = 5;
+const NUM_ROOMS = 50;
 
 connectDB().catch(err => console.log(err));
 
@@ -24,7 +25,7 @@ const run = async () => {
 
 
     const allAmenities = ["Gym", "Pool", "Jacuzzi", "Room Service", "TV", "Hot Water"];
-    const getRandomAmenities(maxItems: number): string => {
+    const getRandomAmenities = (maxItems: number): string => {
         const shuffled = allAmenities.sort(() => 0.5 - Math.random());
         return shuffled.slice(0, maxItems).join(', ');
     }
@@ -55,7 +56,7 @@ const run = async () => {
             specialRequest: faker.lorem.sentence(6),
             roomType: faker.lorem.sentence(3),
             status: Math.random() < 0.5 ? 'Check-In' : 'Check-Out',
-            room: await RoomServices.getRoom(id),
+            roomId: await,
         }
         const newBooking = await BookingServices.addBooking(bookingData);
         createdBookings.push(newBooking);

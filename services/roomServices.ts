@@ -25,8 +25,8 @@ export class RoomServices {
         await RoomModel.findByIdAndDelete(id);
     }
 
-    static async modifyRoom(modifiedRoom: Room): Promise<Room> {
-        await RoomModel.findByIdAndUpdate(modifiedRoom.id, modifiedRoom)
+    static async modifyRoom(id: string, modifiedRoom: Room): Promise<Room> {
+        await RoomModel.findByIdAndUpdate(id, modifiedRoom) // modificar controlador para obtener id
         return modifiedRoom;
     }
 

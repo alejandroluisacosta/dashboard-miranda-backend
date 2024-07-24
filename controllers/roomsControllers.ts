@@ -46,7 +46,8 @@ roomsController.delete('/:id', async (req: Request, res: Response, next: NextFun
 roomsController.put('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const modifiedRoom: Room = req.body;
-        const updatedRoom: Room = await RoomServices.modifyRoom(modifiedRoom);
+        const id = req.params.id;
+        const updatedRoom: Room = await RoomServices.modifyRoom(id, modifiedRoom);
         return res.status(200).json({ rooms: updatedRoom });
     } catch (error) {
         next(error);

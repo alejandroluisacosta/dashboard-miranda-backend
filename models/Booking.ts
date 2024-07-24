@@ -9,7 +9,7 @@ const BookingSchema = new Schema<Booking>({
     specialRequest: { type: String, required: false },
     roomType: { type: String, required: true },
     status: { type: String, required: true },
-    room: { type: Schema.Types.ObjectId, ref: 'RoomModel', required: true},
+    roomId: { type: String, required: true},
 })
 
 const BookingModel = mongoose.model<Booking>('BookingModel', BookingSchema, 'bookings');
