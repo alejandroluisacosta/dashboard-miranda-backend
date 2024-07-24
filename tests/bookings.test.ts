@@ -1,4 +1,4 @@
-import { BookingModel } from "../services/bookingServices";
+import { BookingServices } from "../services/bookingServices";
 import mockBookings from '../data/mockBookings';
 
 const request = require('supertest');
@@ -25,7 +25,7 @@ describe('Bookings controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
       
-    expect(res.body).toMatchObject({ bookings: BookingModel.getBookings() })
+    expect(res.body).toMatchObject({ bookings: BookingServices.getBookings() })
   })
 
   it('getBooking returns a single instance of Booking', async() => {
@@ -34,7 +34,7 @@ describe('Bookings controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
 
-    expect(res.body).toMatchObject({ booking: BookingModel.getBooking('1234') });
+    expect(res.body).toMatchObject({ booking: BookingServices.getBooking('1234') });
   })
 
   it('addBooking returns a single instance of Booking', async() => {
@@ -44,7 +44,7 @@ describe('Bookings controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ booking: BookingModel.addBooking(mockBookings[0]) });
+    expect(res.body).toMatchObject({ booking: BookingServices.addBooking(mockBookings[0]) });
   })
 
   it('removeBookings returns an array of booking instances', async() => {
@@ -54,7 +54,7 @@ describe('Bookings controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ bookings: BookingModel.removeBooking('1234') });
+    expect(res.body).toMatchObject({ bookings: BookingServices.removeBooking('1234') });
   })
 
   it('modifyBookings returns an array of booking instances', async() => {
@@ -67,6 +67,6 @@ describe('Bookings controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ bookings: BookingModel.modifyBooking({...mockBookingsCopy[0], name: "George Clooney"}) });
+    expect(res.body).toMatchObject({ bookings: BookingServices.modifyBooking({...mockBookingsCopy[0], name: "George Clooney"}) });
   })
 })

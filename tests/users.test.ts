@@ -1,4 +1,4 @@
-import { UserModel } from '../services/userServices';
+import { UserServices } from '../services/userServices';
 import mockUsers from '../data/mockUsers';
 
 const request = require('supertest');
@@ -25,7 +25,7 @@ describe('Users controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
       
-    expect(res.body).toMatchObject({ users: UserModel.getUsers() })
+    expect(res.body).toMatchObject({ users: UserServices.getUsers() })
   })
 
   it('getUser returns a single instance of User', async() => {
@@ -34,7 +34,7 @@ describe('Users controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
 
-    expect(res.body).toMatchObject({ user: UserModel.getUser('001') });
+    expect(res.body).toMatchObject({ user: UserServices.getUser('001') });
   })
 
   it('addUser returns a single instance of User', async() => {
@@ -44,7 +44,7 @@ describe('Users controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ user: UserModel.addUser(mockUsers[0]) });
+    expect(res.body).toMatchObject({ user: UserServices.addUser(mockUsers[0]) });
   })
 
   it('removeUsers returns an array of User instances', async() => {
@@ -54,7 +54,7 @@ describe('Users controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ users: UserModel.removeUser('001') });
+    expect(res.body).toMatchObject({ users: UserServices.removeUser('001') });
   })
 
   it('modifyUsers returns an array of User instances', async() => {
@@ -67,6 +67,6 @@ describe('Users controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ users: UserModel.modifyUser({...mockUsersCopy[0], name: "Ben Affleck"}) });
+    expect(res.body).toMatchObject({ users: UserServices.modifyUser({...mockUsersCopy[0], name: "Ben Affleck"}) });
   })
 })
