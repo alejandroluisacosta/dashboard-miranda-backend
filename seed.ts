@@ -6,6 +6,8 @@ import Booking from './interfaces/Booking';
 import { BookingServices } from './services/bookingServices';
 import { RoomServices } from './services/roomServices';
 import Room from './interfaces/Room';
+import Comment from './interfaces/Comment';
+import CommentModel from './models/Comment';
 
 const NUM_BOOKINGS = 200;
 const NUM_COMMENTS = 50;
@@ -22,9 +24,9 @@ const run = async () => {
 
 
     const allAmenities = ["Gym", "Pool", "Jacuzzi", "Room Service", "TV", "Hot Water"];
-    const getRandomAmenities(maxItems: number): string[] => {
+    const getRandomAmenities(maxItems: number): string => {
         const shuffled = allAmenities.sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, maxItems);
+        return shuffled.slice(0, maxItems).join(', ');
     }
 
     for (let i = 0; i < NUM_ROOMS; i++) {
@@ -60,7 +62,7 @@ const run = async () => {
     }
 
     for (let i = 0; i < NUM_USERS; i++) {
-        const userData = {
+        const userData: User = {
             name: faker.person.fullName(),
             userName: faker.internet.userName(),
             image: faker.image.url(),
@@ -75,6 +77,18 @@ const run = async () => {
         }
         const newUser = await UserServices.addUser(userData);
         createdUsers.push(newUser);
+    }
+
+    for (let i = 0; i < NUM_COMMENTS; i++) {
+        const commentData: Comment = {
+            text: faker.lorem.sentence(10),
+            userName: faker.internet.userName(),
+            timestamp: faker.date.between({ from: '2020-01-01T00:00:00.000Z', to: '2024-07-23T00:00:00.000Z' }).toString().split('T')[0],
+            read: Math.random() < 0.5 ? true : false,
+        }
+        const newComment = new CommentModel(commentData);
+        await newComment.save();
+        createdComments.push(newComment);
     }
 }
 

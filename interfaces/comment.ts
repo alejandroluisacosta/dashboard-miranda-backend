@@ -1,5 +1,5 @@
 interface Comment {
-    id: string;
+    id?: string;
     text: string;
     userName: string;
     timestamp: string;
