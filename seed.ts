@@ -49,11 +49,13 @@ const run = async () => {
     }
 
     for (let i = 0; i < NUM_BOOKINGS; i++) {
-        const orderDate = faker.date.between({ from: '2024-01-01T00:00:00.000Z', to: '2024-12-31T00:00:00.000Z' });
-        const checkInDate = new Date(orderDate);
+        const orderDate: Date = faker.date.between({ from: '2024-01-01T00:00:00.000Z', to: '2024-12-31T00:00:00.000Z' });
+        const checkInDate: Date = new Date(orderDate);
         checkInDate.setDate(orderDate.getDate() + faker.number.int({ min: 1, max: 10 }));
-        const checkOutDate = new Date(checkInDate);
+        const checkOutDate: Date = new Date(checkInDate);
         checkOutDate.setDate(checkInDate.getDate() + faker.number.int({ min: 2, max: 20 }));
+        const roomId: string = (createdRooms[Math.floor(Math.random() * 50)] as { id: string }).id;
+        const roomType: string = createdRooms.find(room => room.id === roomId)!.roomType as string;
 
         const bookingData: Booking = {
             name: faker.person.fullName(),
@@ -61,9 +63,9 @@ const run = async () => {
             checkInDate: checkInDate.toISOString().split('T')[0],
             checkOutDate: checkOutDate.toISOString().split('T')[0],
             specialRequest: faker.lorem.sentence(6),
-            roomType: faker.lorem.sentence(3),
+            roomType: roomType,
             status: Math.random() < 0.5 ? 'Check-In' : 'Check-Out',
-            roomId: (createdRooms[Math.floor(Math.random() * 50)] as { id: string }).id,
+            roomId: roomId,
         }
         const newBooking = await BookingServices.addBooking(bookingData);
         createdBookings.push(newBooking);
