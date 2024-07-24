@@ -10,7 +10,7 @@ export async function connectDB() {
         console.error('Mongoose connection error:', err);
     });
     
-    await mongoose.connect('mongodb://127.0.0.1:27017/test');
+    await mongoose.connect(process.env.MONGO_STRING!);
 }
 
 connectDB().catch(err => console.log(err));

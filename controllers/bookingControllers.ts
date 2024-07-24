@@ -25,6 +25,7 @@ bookingController.get('/:id', async (req: Request, res: Response, next: NextFunc
 
 bookingController.post('/', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
+        
         const newBooking: Booking = req.body as Booking;
         const addedBooking = await BookingServices.addBooking(newBooking);
         return res.status(201).json({ booking: addedBooking });
