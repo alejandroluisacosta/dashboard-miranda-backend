@@ -50,14 +50,10 @@ const run = async () => {
 
     for (let i = 0; i < NUM_BOOKINGS; i++) {
         const orderDate = faker.date.between({ from: '2024-01-01T00:00:00.000Z', to: '2024-12-31T00:00:00.000Z' });
-        const checkInDate = faker.date.between({
-            from: new Date(orderDate.getTime() + 1 * 24 * 60 * 60 * 1000),
-            to: new Date(orderDate.getTime() + 10 * 24 * 60 * 60 * 1000)
-        });
-        const checkOutDate = faker.date.between({
-            from: new Date(checkInDate.getTime() + 2 * 24 * 60 * 60 * 1000),
-            to: new Date(checkInDate.getTime() + 20 * 24 * 60 * 60 * 1000)
-        });
+        const checkInDate = new Date(orderDate);
+        checkInDate.setDate(orderDate.getDate() + faker.number.int({ min: 1, max: 10 }));
+        const checkOutDate = new Date(checkInDate);
+        checkOutDate.setDate(checkInDate.getDate() + faker.number.int({ min: 2, max: 20 }));
 
         const bookingData: Booking = {
             name: faker.person.fullName(),
