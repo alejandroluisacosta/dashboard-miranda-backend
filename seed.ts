@@ -8,7 +8,8 @@ import { RoomServices } from './services/roomServices';
 import Room from './interfaces/Room';
 import Comment from './interfaces/Comment';
 import CommentModel from './models/Comment';
-import RoomModel from './models/Room';
+import mongoose from 'mongoose';
+// import RoomModel from './models/Room';
 
 const NUM_BOOKINGS = 200;
 const NUM_COMMENTS = 50;
@@ -18,6 +19,7 @@ const NUM_ROOMS = 50;
 connectDB().catch(err => console.log(err));
 
 const run = async () => {
+    mongoose.connection.dropDatabase();
     const createdBookings = [];
     const createdComments = [];
     const createdRooms = [];
@@ -42,21 +44,21 @@ const run = async () => {
             description: faker.lorem.sentence(6),
             status: Math.random() < 0.5 ? 'Available' : 'Booked',
             cancellationPolicies: faker.lorem.sentence(4),
-          }
-          const newRoom = await RoomServices.addRoom(roomData);
-          createdRooms.push(newRoom);
-        }
+            }
+            const newRoom = await RoomServices.addRoom(roomData);
+            createdRooms.push(newRoom);
+    }
 
     for (let i = 0; i < NUM_BOOKINGS; i++) {
         const bookingData: Booking = {
             name: faker.person.fullName(),
-            orderDate: faker.date.between({ from: '2020-01-01T00:00:00.000Z', to: '2024-07-23T00:00:00.000Z' }).toString().split('T')[0],
-            checkInDate: faker.date.between({ from: '2020-01-01T00:00:00.000Z', to: '2024-10-23T00:00:00.000Z' }).toString().split('T')[0],
-            checkOutDate: faker.date.between({ from: '2020-01-01T00:00:00.000Z', to: '2024-10-23T00:00:00.000Z' }).toString().split('T')[0],
+            orderDate: faker.date.between({ from: '2020-01-01T00:00:00.000Z', to: '2030-01-01T00:00:00.000Z' }).toISOString().split('T')[0],
+            checkInDate: '01-01-01',
+            checkOutDate: '01-01-01',
             specialRequest: faker.lorem.sentence(6),
             roomType: faker.lorem.sentence(3),
             status: Math.random() < 0.5 ? 'Check-In' : 'Check-Out',
-            roomId: await,
+            roomId: "123"
         }
         const newBooking = await BookingServices.addBooking(bookingData);
         createdBookings.push(newBooking);
@@ -84,7 +86,7 @@ const run = async () => {
         const commentData: Comment = {
             text: faker.lorem.sentence(10),
             userName: faker.internet.userName(),
-            timestamp: faker.date.between({ from: '2020-01-01T00:00:00.000Z', to: '2024-07-23T00:00:00.000Z' }).toString().split('T')[0],
+            timestamp: '01-01-01',
             read: Math.random() < 0.5 ? true : false,
         }
         const newComment = new CommentModel(commentData);
