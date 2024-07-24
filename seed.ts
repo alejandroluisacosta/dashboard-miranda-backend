@@ -63,7 +63,7 @@ const run = async () => {
             specialRequest: faker.lorem.sentence(6),
             roomType: faker.lorem.sentence(3),
             status: Math.random() < 0.5 ? 'Check-In' : 'Check-Out',
-            roomId: "123"
+            roomId: (createdRooms[Math.floor(Math.random() * 50)] as { id: string }).id,
         }
         const newBooking = await BookingServices.addBooking(bookingData);
         createdBookings.push(newBooking);
