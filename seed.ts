@@ -9,7 +9,6 @@ import Room from './interfaces/Room';
 import Comment from './interfaces/Comment';
 import CommentModel from './models/Comment';
 import mongoose from 'mongoose';
-// import RoomModel from './models/Room';
 
 const NUM_BOOKINGS = 200;
 const NUM_COMMENTS = 50;
@@ -50,11 +49,21 @@ const run = async () => {
     }
 
     for (let i = 0; i < NUM_BOOKINGS; i++) {
+        const orderDate = faker.date.between({ from: '2024-01-01T00:00:00.000Z', to: '2024-12-31T00:00:00.000Z' });
+        const checkInDate = faker.date.between({
+            from: new Date(orderDate.getTime() + 1 * 24 * 60 * 60 * 1000),
+            to: new Date(orderDate.getTime() + 10 * 24 * 60 * 60 * 1000)
+        });
+        const checkOutDate = faker.date.between({
+            from: new Date(checkInDate.getTime() + 2 * 24 * 60 * 60 * 1000),
+            to: new Date(checkInDate.getTime() + 20 * 24 * 60 * 60 * 1000)
+        });
+
         const bookingData: Booking = {
             name: faker.person.fullName(),
-            orderDate: faker.date.between({ from: '2020-01-01T00:00:00.000Z', to: '2030-01-01T00:00:00.000Z' }).toISOString().split('T')[0],
-            checkInDate: '01-01-01',
-            checkOutDate: '01-01-01',
+            orderDate: orderDate.toISOString().split('T')[0],
+            checkInDate: checkInDate.toISOString().split('T')[0],
+            checkOutDate: checkOutDate.toISOString().split('T')[0],
             specialRequest: faker.lorem.sentence(6),
             roomType: faker.lorem.sentence(3),
             status: Math.random() < 0.5 ? 'Check-In' : 'Check-Out',
