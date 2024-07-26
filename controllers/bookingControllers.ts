@@ -1,6 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { BookingServices } from '../services/bookingServices';
 import Booking from '../interfaces/Booking';
+import Room from '../interfaces/Room';
+import { RoomServices } from '../services/roomServices';
 
 const bookingController = express.Router();
 
@@ -25,8 +27,9 @@ bookingController.get('/:id', async (req: Request, res: Response, next: NextFunc
 
 bookingController.post('/', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
-        
         const newBooking: Booking = req.body as Booking;
+        const room: Room = await RoomServices.getRoom(newBooking.roomId);
+        newBooking.roomType = room.roomType;
         const addedBooking = await BookingServices.addBooking(newBooking);
         return res.status(201).json({ booking: addedBooking });
     } catch (error) {

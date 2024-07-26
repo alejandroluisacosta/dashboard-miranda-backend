@@ -1,4 +1,3 @@
-  import Room from "./Room";
 
   interface Booking {
       name: string;
