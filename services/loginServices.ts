@@ -1,7 +1,7 @@
 import User from '../interfaces/User';
 import UserModel from '../models/User';
 import { generateAccessToken } from '../utils/authUtils';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 class LoginServices {
 

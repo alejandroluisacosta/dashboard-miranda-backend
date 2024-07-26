@@ -1,6 +1,6 @@
 import User from "../interfaces/User";
 import UserModel from '../models/User';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export class UserServices {
 
