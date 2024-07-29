@@ -1,53 +1,53 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { UserModel } from '../services/userServices';
+import { UserServices } from '../services/userServices';
 import User from '../interfaces/User';
 
 const usersController = express.Router();
 
-usersController.get('/', (_req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
+usersController.get('/', async (_req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
-        const users: User[] = UserModel.getUsers();
-        return res.json({ users: users });
+        const users: User[] = await UserServices.getUsers();
+        return res.status(200).json({ users });
     } catch (error) {
         next(error);
     }
 })
 
-usersController.get('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
+usersController.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const id: string = req.params.id;
-        const user = UserModel.getUser(id);
-        return res.json({ user: user });
+        const user = await UserServices.getUser(id);
+        return res.status(200).json({ user });
     } catch (error) {
         next(error);
     }
 })
 
-usersController.post('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
+usersController.post('/', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const newUser: User = req.body as User;
-        UserModel.addUser(newUser);
-        return res.json({ user: newUser });
+        const addedUser = await UserServices.addUser(newUser);
+        return res.status(201).json({ user: addedUser });
     } catch (error) {
         next(error);
     }
 })
 
-usersController.delete('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
+usersController.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const id: string = req.params.id;
-        const updatedUsers: User[] = UserModel.removeUser(id);
-        return res.json({ users: updatedUsers });
+        UserServices.removeUser(id);
+        return res.status(204).send();
     } catch (error) {
         next(error);
     }
 })
 
-usersController.put('/:id',  (req: Request, res: Response, next: NextFunction): Response<JSON> | void => {
+usersController.put('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const modifiedUser: User = req.body;
-        const updatedUsers: User[] = UserModel.modifyUser(modifiedUser);
-        return res.json({ users: updatedUsers });
+        const updatedUser: User = await UserServices.modifyUser(modifiedUser);
+        return res.status(200).json({ users: updatedUser });
     } catch (error) {
         next(error);
     }

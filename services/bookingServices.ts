@@ -1,34 +1,32 @@
-import mockBookings from "../data/mockBookings";
 import Booking from "../interfaces/Booking";
+import BookingModel from '../models/Booking';
 
-export class BookingModel {
+export class BookingServices {
 
-    static getBookings(): Booking[] {
-        return mockBookings;
+    static async getBookings(): Promise<Booking[]> {
+        const allBookings: Booking[] =  await BookingModel.find().exec();
+        return allBookings;
     }
 
-    static getBooking(id: string): Booking {
-        const booking = mockBookings.find(booking => booking.id === id);
+    static async getBooking(id: string): Promise<Booking> {
+        const booking: Booking | null = await BookingModel.findById(id);
         if (!booking)
             throw new Error('No booking found');
         return booking;
     }
 
-    static addBooking(booking: Booking): Booking {
-        mockBookings.push(booking);
-        return booking;
+    static async addBooking(booking: Booking): Promise<Booking> {
+        const newBooking = new BookingModel(booking);
+        await newBooking.save();
+        return newBooking;
     }
 
-    static removeBooking(id: string): Booking[] {
-        const updatedBookings = mockBookings.filter(booking => booking.id !== id);
-        return updatedBookings;
+    static async removeBooking(id: string): Promise<void> {
+       await BookingModel.findByIdAndDelete(id);
     }
 
-    static modifyBooking(modifiedBooking: Booking): Booking[] {
-        const updatedBookings = mockBookings.map(booking => 
-            booking.id === modifiedBooking.id ? modifiedBooking : booking
-        );
-        return updatedBookings;
+    static async modifyBooking(modifiedBooking: Booking): Promise<Booking> {
+        await BookingModel.findByIdAndUpdate(modifiedBooking.id, modifiedBooking);
+        return modifiedBooking;
     }
-
   }

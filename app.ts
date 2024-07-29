@@ -8,6 +8,7 @@ import usersController from './controllers/usersControllers';
 import commentController from './controllers/commentControllers';
 import mustacheExpress from 'mustache-express'
 import { authenticateTokenMiddleware } from './middleware/auth';
+import { connectDB } from './db';
 
 process.env.TOKEN_SECRET;
 
@@ -15,12 +16,22 @@ export const app = express();
 export const port = 3000;
 app.use(express.json());
 
+async function startServer() {
+	try {
+		await connectDB();
+	} catch (err) {
+		console.error('Unexpected error occurred', err);
+	}
+}
+
+startServer();
+
 // PUBLIC ROUTE
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', './views');
 app.set('view engine', 'mustache');
 app.engine('mustache', mustacheExpress());
-app.get('/public', (_req, res) => {
+app.use('/home', (_req, res) => {
     res.render('index');
   })
 

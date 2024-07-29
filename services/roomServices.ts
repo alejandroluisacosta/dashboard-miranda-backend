@@ -1,34 +1,33 @@
-import mockRooms from "../data/mockRooms";
 import Room from "../interfaces/Room";
+import RoomModel from '../models/Room';
 
-export class RoomModel {
+export class RoomServices {
 
-    static getRooms(): Room[] {
-        return mockRooms;
+    static async getRooms(): Promise<Room[]> {
+        const allRooms: Room[] = await RoomModel.find().exec();
+        return allRooms;
     }
 
-    static getRoom(id: string): Room {
-        const room = mockRooms.find(room => room.id === id);
+    static async getRoom(id: string): Promise<Room> {
+        const room: Room | null = await RoomModel.findById(id);
         if (!room)
             throw new Error('No room found');
         return room;
     }
 
-    static addRoom(room: Room): Room {
-        mockRooms.push(room);
-        return room;
+    static async addRoom(room: Room): Promise<Room> {
+        const newRoom = new RoomModel(room);
+        await newRoom.save();
+        return newRoom;
     }
 
-    static removeRoom(id: string): Room[] {
-        const updatedRooms = mockRooms.filter(room => room.id !== id);
-        return updatedRooms;
+    static async removeRoom(id: string): Promise<void> {
+        await RoomModel.findByIdAndDelete(id);
     }
 
-    static modifyRoom(modifiedRoom: Room): Room[] {
-        const updatedRooms = mockRooms.map(room => 
-            room.id === modifiedRoom.id ? room = modifiedRoom : room
-        );
-        return updatedRooms;
+    static async modifyRoom(id: string, modifiedRoom: Room): Promise<Room> {
+        await RoomModel.findByIdAndUpdate(id, modifiedRoom) // modificar controlador para obtener id
+        return modifiedRoom;
     }
 
   }

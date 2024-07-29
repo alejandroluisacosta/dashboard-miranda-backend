@@ -1,12 +1,12 @@
 interface Room {
-    id: string;
-    image: string;
+    id?: string;
+    image: string[];
     name: string;
     roomType: string;
     amenities: string;
     rate: number;
     offer: string
-    discount: number;
+    discount?: number;
     description?: string;
     status: 'Available' | 'Booked';
     cancellationPolicies?: string;

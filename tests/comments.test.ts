@@ -1,4 +1,4 @@
-import { CommentModel } from '../services/commentServices';
+import { CommentServices } from '../services/commentServices';
 import mockComments from '../data/mockComments';
 
 const request = require('supertest');
@@ -25,7 +25,7 @@ describe('Comments controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
       
-    expect(res.body).toMatchObject({ comments: CommentModel.getComments() })
+    expect(res.body).toMatchObject({ comments: CommentServices.getComments() })
   })
 
   it('getComment returns a single instance of Comment', async() => {
@@ -34,7 +34,7 @@ describe('Comments controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
 
-    expect(res.body).toMatchObject({ comment: CommentModel.getComment('001') });
+    expect(res.body).toMatchObject({ comment: CommentServices.getComment('001') });
   })
 
   it('removeComments returns an array of Comment instances', async() => {
@@ -44,7 +44,7 @@ describe('Comments controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ comments: CommentModel.removeComment('001') });
+    expect(res.body).toMatchObject({ comments: CommentServices.removeComment('001') });
   })
 
   it('modifyComment returns an array of Comment instances', async() => {
@@ -57,6 +57,6 @@ describe('Comments controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ comments: CommentModel.modifyComment({...mockCommentsCopy[0], read: true}) });
+    expect(res.body).toMatchObject({ comments: CommentServices.modifyComment({...mockCommentsCopy[0], read: true}) });
   })
 })

@@ -1,6 +1,7 @@
 interface User {
     name: string;
-    id: string;
+    userName: string;
+    id?: string;
     image: string;
     incorporatedOn: string;
     jobDesk: string;
@@ -9,6 +10,7 @@ interface User {
     status: string;
     role?: string;
     email?: string;
+    password: string;
 }
 
 export default User;

@@ -1,43 +1,43 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { CommentModel } from '../services/commentServices';
+import { CommentServices } from '../services/commentServices';
 import Comment from '../interfaces/Comment';
 
 const commentController = express.Router();
 
-commentController.get('/', (_req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+commentController.get('/', async (_req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
-        const comments: Comment[] = CommentModel.getComments();
-        return res.json({ comments: comments });
+        const comments: Comment[] = await CommentServices.getComments();
+        return res.status(200).json({ comments: comments });
     } catch (error) {
         next(error);
     }
 })
 
-commentController.get('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
-    try {
-        const id: string = req.params.id;
-        const comment = CommentModel.getComment(id);
-        return res.json({ comment: comment });
-    } catch (error) {
-        next(error);
-    }
-})
-
-commentController.delete('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+commentController.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const id: string = req.params.id;
-        const updatedComments: Comment[] = CommentModel.removeComment(id);
-        return res.json({ comments: updatedComments });
+        const comment = CommentServices.getComment(id);
+        return res.status(200).json({ comment: comment });
     } catch (error) {
         next(error);
     }
 })
 
-commentController.patch('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+commentController.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
+    try {
+        const id: string = req.params.id;
+        await CommentServices.removeComment(id);
+        return res.status(204).send();
+    } catch (error) {
+        next(error);
+    }
+})
+
+commentController.patch('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const modifiedComment: Comment = req.body;
-        const updatedComments: Comment[] = CommentModel.modifyComment(modifiedComment);
-        return res.json({ comments: updatedComments });
+        const updatedComment: Comment = await CommentServices.modifyComment(modifiedComment);
+        return res.status(200).json({ comment: updatedComment });
     } catch (error) {
         next(error);
     }

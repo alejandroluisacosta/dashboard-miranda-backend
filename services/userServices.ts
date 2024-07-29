@@ -1,34 +1,38 @@
-import mockUsers from "../data/mockUsers";
 import User from "../interfaces/User";
+import UserModel from '../models/User';
+import bcrypt from 'bcryptjs';
 
-export class UserModel {
+export class UserServices {
 
-    static getUsers(): User[] {
-        return mockUsers;
+    static async getUsers(): Promise<User[]> {
+        const allUsers: User[] = await UserModel.find().exec();
+        return allUsers;
     }
 
-    static getUser(id: string): User {
-        const user = mockUsers.find(user => user.id === id);
+    static async getUser(id: string): Promise<User> {
+        const user: User | null = await UserModel.findById(id);
         if (!user)
             throw new Error('No user found');
         return user;
     }
 
-    static addUser(user: User): User {
-        mockUsers.push(user);
-        return user;
+    static async addUser(user: User): Promise<User> {
+        const newUser = new UserModel(user);
+        const plainTextPassword: string = newUser.password;
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(plainTextPassword, saltRounds);
+        newUser.password = hashedPassword;
+        await newUser.save();
+        return newUser;
     }
 
-    static removeUser(id: string): User[] {
-        const updatedUsers = mockUsers.filter(user => user.id !== id);
-        return updatedUsers;
+    static async removeUser(id: string): Promise<void> {
+        await UserModel.findByIdAndDelete(id);
     }
 
-    static modifyUser(modifiedUser: User): User[] {
-        const updatedUsers = mockUsers.map(User => 
-            User.id === modifiedUser.id ? User = modifiedUser : User
-        );
-        return updatedUsers;
+    static async modifyUser(modifiedUser: User): Promise<User> {
+        await UserModel.findByIdAndUpdate(modifiedUser.id, modifiedUser);
+        return modifiedUser;
     }
 
   }

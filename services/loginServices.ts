@@ -1,21 +1,23 @@
+import User from '../interfaces/User';
+import UserModel from '../models/User';
 import { generateAccessToken } from '../utils/authUtils';
+import bcrypt from 'bcryptjs';
 
-class LoginModel {
+class LoginServices {
 
-    static authenticateUser(username: string, password: string): string {
+    static async authenticateUser(user: User): Promise<string> {
         
-        const placeholderUser = {
-            userName: 'John',
-            password: '1234'
-        };
+        const userToCheck: User | null = await UserModel.findOne({ userName: user.userName });
         
-        if (username === placeholderUser.userName && password === placeholderUser.password) {
-            const token = generateAccessToken(placeholderUser.userName);
-            return token;
-        } else {
-            throw new Error('Invalid credentials');
+        if (userToCheck && user.userName === userToCheck.userName) {
+            const match = await bcrypt.compare(user.password, userToCheck.password);
+            if (match) {
+                const token = generateAccessToken(user.userName);
+                return token;
+                }
         }
+        throw new Error('Invalid credentials');
     }
 }
 
-export default LoginModel;
+export default LoginServices;

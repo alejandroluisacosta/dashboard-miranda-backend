@@ -1,4 +1,4 @@
-import { RoomModel } from '../services/roomServices';
+import { RoomServices } from '../services/roomServices';
 import mockRooms from '../data/mockRooms';
 
 const request = require('supertest');
@@ -25,7 +25,7 @@ describe('Rooms controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
       
-    expect(res.body).toMatchObject({ rooms: RoomModel.getRooms() })
+    expect(res.body).toMatchObject({ rooms: RoomServices.getRooms() })
   })
 
   it('getRoom returns a single instance of Room', async() => {
@@ -34,7 +34,7 @@ describe('Rooms controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
 
-    expect(res.body).toMatchObject({ room: RoomModel.getRoom('1234') });
+    expect(res.body).toMatchObject({ room: RoomServices.getRoom('1234') });
   })
 
   it('addRoom returns a single instance of Room', async() => {
@@ -44,7 +44,7 @@ describe('Rooms controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ room: RoomModel.addRoom(mockRooms[0]) });
+    expect(res.body).toMatchObject({ room: RoomServices.addRoom(mockRooms[0]) });
   })
 
   it('removeRoom returns an array of Room instances', async() => {
@@ -54,7 +54,7 @@ describe('Rooms controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ rooms: RoomModel.removeRoom('1234') });
+    expect(res.body).toMatchObject({ rooms: RoomServices.removeRoom('1234') });
   })
 
   it('modifyRoom returns an array of Room instances', async() => {
@@ -67,6 +67,6 @@ describe('Rooms controller tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ rooms: RoomModel.modifyRoom({...mockRoomsCopy[0], name: "The Super Room"}) });
+    expect(res.body).toMatchObject({ rooms: RoomServices.modifyRoom({...mockRoomsCopy[0], name: "The Super Room"}) });
   })
 })

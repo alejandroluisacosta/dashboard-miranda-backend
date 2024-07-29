@@ -1,29 +1,26 @@
-import mockComments from "../data/mockComments";
-import Comment from "../interfaces/Comment";
+import Comment from '../interfaces/Comment';
+import CommentModel from '../models/Comment';
 
-export class CommentModel {
+export class CommentServices {
 
-    static getComments(): Comment[] {
-        return mockComments;
+    static async getComments(): Promise<Comment[]> {
+        const allComments = await CommentModel.find().exec();
+        return allComments;
     }
 
-    static getComment(id: string): Comment {
-        const comment = mockComments.find(comment => comment.id === id);
+    static async getComment(id: string): Promise<Comment> {
+        const comment = await CommentModel.findById(id)
         if (!comment)
             throw new Error('No comment found');
         return comment;
     }
 
-    static removeComment(id: string): Comment[] {
-        const updatedComments = mockComments.filter(comment => comment.id !== id);
-        return updatedComments;
+    static async removeComment(id: string): Promise<void> {
+        await CommentModel.findByIdAndDelete(id);
     }
 
-    static modifyComment(modifiedComment: Comment): Comment[] {
-        const updatedComments = mockComments.map(comment => 
-            comment.id === modifiedComment.id ? { ...comment, read: !comment.read} : comment
-        );
-        return updatedComments;
+    static async modifyComment(modifiedComment: Comment): Promise<Comment> {
+        await CommentModel.findOneAndUpdate(modifiedComment, { read: !modifiedComment.read });
+        return modifiedComment;
     }
-
   }

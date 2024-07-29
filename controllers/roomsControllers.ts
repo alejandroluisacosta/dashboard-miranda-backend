@@ -1,53 +1,54 @@
 import express, { NextFunction, Request, Response } from 'express';
-import { RoomModel } from '../services/roomServices';
+import { RoomServices } from '../services/roomServices';
 import Room from '../interfaces/Room';
 
 const roomsController = express.Router();
 
-roomsController.get('/', (_req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+roomsController.get('/', async (_req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
-        const rooms: Room[] = RoomModel.getRooms();
-        return res.json({ rooms: rooms });
+        const rooms: Room[] = await RoomServices.getRooms();
+        return res.status(200).json({ rooms });
     } catch (error) {
         next(error);
     }
 })
 
-roomsController.get('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+roomsController.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const id: string = req.params.id;
-        const room = RoomModel.getRoom(id);
-        return res.json({ room: room });
+        const room = await RoomServices.getRoom(id);
+        return res.status(200).json({ room });
     } catch (error) {
         next(error);
     }
 })
 
-roomsController.post('/', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+roomsController.post('/', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const newRoom: Room = req.body as Room;
-        RoomModel.addRoom(newRoom);
-        return res.json({ room: newRoom });
+        const addedRoom = await RoomServices.addRoom(newRoom);
+        return res.status(201).json({ room: addedRoom });
     } catch (error) {
         next(error);
     }
 })
 
-roomsController.delete('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+roomsController.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const id: string = req.params.id;
-        const updatedRooms: Room[] = RoomModel.removeRoom(id);
-        return res.json({ rooms: updatedRooms });
+        await RoomServices.removeRoom(id);
+        return res.status(204).send();
     } catch (error) {
         next(error);
     }
 })
 
-roomsController.put('/:id', (req: Request, res: Response, next: NextFunction): Response<JSON> | void=> {
+roomsController.put('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const modifiedRoom: Room = req.body;
-        const updatedRooms: Room[] = RoomModel.modifyRoom(modifiedRoom);
-        return res.json({ rooms: updatedRooms });
+        const id = req.params.id;
+        const updatedRoom: Room = await RoomServices.modifyRoom(id, modifiedRoom);
+        return res.status(200).json({ rooms: updatedRoom });
     } catch (error) {
         next(error);
     }
