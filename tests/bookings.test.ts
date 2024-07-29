@@ -2,7 +2,7 @@ import { BookingServices } from "../services/bookingServices";
 import mockBookings from '../data/mockBookings';
 
 const request = require('supertest');
-const { app }  = require('../index');
+const { app }  = require('../app');
 
 describe('Bookings controller tests', () => {
   let token: string;
@@ -38,13 +38,23 @@ describe('Bookings controller tests', () => {
   })
 
   it('addBooking returns a single instance of Booking', async() => {
+    const newBooking = ({
+      "name": "Aaron Glover",
+      "orderDate": "2024-03-04",
+      "checkInDate": "2024-03-11",
+      "checkOutDate": "2024-03-19",
+      "specialRequest": "Deficio corroboro votum amplexus aureus conicio.",
+      "roomType": "Adhaero coniecto adeptio.",
+      "status": "Check-Out",
+      "roomId": "66a0e3bf3b7710011d2d4923"
+    })
     const res = await request(app)
       .post('/bookings')
-      .send(mockBookings[0])
+      .send(newBooking)
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 
-    expect(res.body).toMatchObject({ booking: BookingServices.addBooking(mockBookings[0]) });
+    expect(res.body).toMatchObject({ booking: BookingServices.addBooking(newBooking) });
   })
 
   it('removeBookings returns an array of booking instances', async() => {

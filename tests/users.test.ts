@@ -38,9 +38,22 @@ describe('Users controller tests', () => {
   })
 
   it('addUser returns a single instance of User', async() => {
+    const newUser = {
+      "name": "Shelly Konopelski",
+      "userName": "Noble.Okuneva59",
+      "image": "https://picsum.photos/seed/eyE0AIwI/640/480",
+      "incorporatedOn": "01-01-24",
+      "jobDesk": "Contego viscus crustulum trado.",
+      "schedule": "Monday - Friday",
+      "phone": "(322) 591-1486 x85593",
+      "status": "Available",
+      "role": "International Security Analyst",
+      "email": "Marco.Lemke20@gmail.com",
+      "password": "1234"
+    }
     const res = await request(app)
       .post('/users')
-      .send(mockUsers[0])
+      .send(newUser)
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
 

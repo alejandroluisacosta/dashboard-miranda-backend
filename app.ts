@@ -9,12 +9,13 @@ import commentController from './controllers/commentControllers';
 import mustacheExpress from 'mustache-express'
 import { authenticateTokenMiddleware } from './middleware/auth';
 import { connectDB } from './db';
+import cors from 'cors';
 
 process.env.TOKEN_SECRET;
 
 export const app = express();
-export const port = 3000;
 app.use(express.json());
+app.use(cors);
 
 async function startServer() {
 	try {
