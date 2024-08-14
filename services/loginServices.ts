@@ -9,7 +9,7 @@ class LoginServices {
         
         const userToCheck: User | null = await UserModel.findOne({ userName: user.userName });
         
-        if (userToCheck && user.userName === userToCheck.userName) {
+        if ((userToCheck && user.userName === userToCheck.userName)) {
             const match = await bcrypt.compare(user.password, userToCheck.password);
             if (match) {
                 const token = generateAccessToken(user.userName);

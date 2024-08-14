@@ -8,7 +8,7 @@
       specialRequest?: string;
       roomType: string;
       status: string;
-      roomId: string;
+      roomId: string | undefined;
     }
 
     export default Booking;

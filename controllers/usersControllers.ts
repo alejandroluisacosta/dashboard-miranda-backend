@@ -47,7 +47,7 @@ usersController.put('/:id', async (req: Request, res: Response, next: NextFuncti
     try {
         const modifiedUser: User = req.body;
         const updatedUser: User = await UserServices.modifyUser(modifiedUser);
-        return res.status(200).json({ users: updatedUser });
+        return res.status(200).json({ user: updatedUser });
     } catch (error) {
         next(error);
     }

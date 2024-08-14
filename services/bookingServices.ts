@@ -1,3 +1,4 @@
+// import { ObjectId } from "mongodb";
 import Booking from "../interfaces/Booking";
 import BookingModel from '../models/Booking';
 
@@ -25,8 +26,8 @@ export class BookingServices {
        await BookingModel.findByIdAndDelete(id);
     }
 
-    static async modifyBooking(modifiedBooking: Booking): Promise<Booking> {
-        await BookingModel.findByIdAndUpdate(modifiedBooking.id, modifiedBooking);
+    static async modifyBooking(id: string, modifiedBooking: Booking): Promise<Booking> {
+        await BookingModel.findByIdAndUpdate(id, modifiedBooking);
         return modifiedBooking;
     }
   }

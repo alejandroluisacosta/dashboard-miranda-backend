@@ -1,5 +1,5 @@
 interface Room {
-    id?: string;
+    _id?: string;
     image: string[];
     name: string;
     roomType: string;
