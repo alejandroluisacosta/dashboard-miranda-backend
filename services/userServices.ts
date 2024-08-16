@@ -30,8 +30,8 @@ export class UserServices {
         await UserModel.findByIdAndDelete(id);
     }
 
-    static async modifyUser(modifiedUser: User): Promise<User> {
-        await UserModel.findByIdAndUpdate(modifiedUser.id, modifiedUser);
+    static async modifyUser(id: string, modifiedUser: User): Promise<User> {
+        await UserModel.findByIdAndUpdate(id, modifiedUser);
         return modifiedUser;
     }
 
