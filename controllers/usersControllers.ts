@@ -46,8 +46,9 @@ usersController.delete('/:id', async (req: Request, res: Response, next: NextFun
 usersController.put('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const modifiedUser: User = req.body;
-        const updatedUser: User = await UserServices.modifyUser(modifiedUser);
-        return res.status(200).json({ users: updatedUser });
+        const id = req.params.id;
+        const updatedUser: User = await UserServices.modifyUser(id, modifiedUser);
+        return res.status(200).json({ user: updatedUser });
     } catch (error) {
         next(error);
     }

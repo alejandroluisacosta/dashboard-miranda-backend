@@ -9,6 +9,7 @@ import Room from './interfaces/Room';
 import Comment from './interfaces/Comment';
 import CommentModel from './models/Comment';
 import mongoose from 'mongoose';
+import 'dotenv/config';
 
 const NUM_BOOKINGS = 200;
 const NUM_COMMENTS = 50;
@@ -54,8 +55,8 @@ const run = async () => {
         checkInDate.setDate(orderDate.getDate() + faker.number.int({ min: 1, max: 10 }));
         const checkOutDate: Date = new Date(checkInDate);
         checkOutDate.setDate(checkInDate.getDate() + faker.number.int({ min: 2, max: 20 }));
-        const roomId: string = (createdRooms[Math.floor(Math.random() * 50)] as { id: string }).id;
-        const roomType: string = createdRooms.find(room => room.id === roomId)!.roomType as string;
+        const roomId: string = (createdRooms[Math.floor(Math.random() * 50)] as { _id: string })._id;
+        const roomType: string = createdRooms.find(room => room._id === roomId)!.roomType as string;
 
         const bookingData: Booking = {
             name: faker.person.fullName(),
@@ -75,7 +76,7 @@ const run = async () => {
         const userData: User = {
             name: faker.person.fullName(),
             userName: faker.internet.userName(),
-            image: faker.image.url(),
+            image: faker.image.urlPicsumPhotos(),
             incorporatedOn: '01-01-24',
             jobDesk: faker.lorem.sentence(4),
             schedule: 'Monday - Friday',

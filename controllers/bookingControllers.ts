@@ -3,6 +3,7 @@ import { BookingServices } from '../services/bookingServices';
 import Booking from '../interfaces/Booking';
 import Room from '../interfaces/Room';
 import { RoomServices } from '../services/roomServices';
+// import { ObjectId } from 'mongodb';
 
 const bookingController = express.Router();
 
@@ -28,9 +29,8 @@ bookingController.get('/:id', async (req: Request, res: Response, next: NextFunc
 bookingController.post('/', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
         const newBooking: Booking = req.body as Booking;
-        const room: Room = await RoomServices.getRoom(newBooking.roomId);
-        newBooking.roomType = room.roomType;
-        const addedBooking = await BookingServices.addBooking(newBooking);
+        const room: Room = await RoomServices.getRoom(newBooking.roomType);
+        const addedBooking = await BookingServices.addBooking({...newBooking, roomId: room._id});
         return res.status(201).json({ booking: addedBooking });
     } catch (error) {
         next(error);
@@ -49,8 +49,9 @@ bookingController.delete('/:id', async (req: Request, res: Response, next: NextF
 
 bookingController.put('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
+        const id: string = req.params.id;
         const modifiedBooking: Booking = req.body;
-        const updatedBooking: Booking = await BookingServices.modifyBooking(modifiedBooking);
+        const updatedBooking: Booking = await BookingServices.modifyBooking(id, modifiedBooking);
         return res.status(200).json({ booking: updatedBooking });
     } catch (error) {
         next(error);
