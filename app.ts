@@ -8,7 +8,7 @@ import usersController from './controllers/usersControllers';
 import commentController from './controllers/commentControllers';
 import mustacheExpress from 'mustache-express'
 import { authenticateTokenMiddleware } from './middleware/auth';
-import { connectDB } from './db';
+import connection from './db';
 import cors from 'cors';
 
 process.env.TOKEN_SECRET;
@@ -16,16 +16,6 @@ process.env.TOKEN_SECRET;
 export const app = express();
 app.use(express.json());
 app.use(cors());
-
-async function startServer() {
-	try {
-		await connectDB();
-	} catch (err) {
-		console.error('Unexpected error occurred', err);
-	}
-}
-
-startServer();
 
 // PUBLIC ROUTE
 app.use(express.static(path.join(__dirname, 'public')));

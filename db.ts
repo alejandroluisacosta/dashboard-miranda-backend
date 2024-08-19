@@ -1,16 +1,18 @@
-import mongoose from 'mongoose';
+const mysql = require('mysql2');
 
-export async function connectDB() {
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    database: 'miranda',
+});
 
-    mongoose.connection.on('connected', () => {
-        console.log('Mongoose connected to database');
-    });
-
-    mongoose.connection.on('error', (err) => {
-        console.error('Mongoose connection error:', err);
-    });
-    
-    await mongoose.connect(process.env.MONGO_STRING!);
+try {
+    const [results, fields] = connection.query (
+        'SELECT * FROM `miranda`'
+    )
+    console.log(results, fields)
+} catch (err) {
+    console.log(err);
 }
 
-connectDB().catch(err => console.log(err));
+export default connection;
