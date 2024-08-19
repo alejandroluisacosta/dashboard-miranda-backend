@@ -8,7 +8,7 @@ import usersController from './controllers/usersControllers';
 import commentController from './controllers/commentControllers';
 import mustacheExpress from 'mustache-express'
 import { authenticateTokenMiddleware } from './middleware/auth';
-import connection from './db';
+import { connection } from './db';
 import cors from 'cors';
 
 process.env.TOKEN_SECRET;
@@ -16,6 +16,19 @@ process.env.TOKEN_SECRET;
 export const app = express();
 app.use(express.json());
 app.use(cors());
+
+async function startServer() {
+	try {
+		const conn = await connection;
+		console.log('Database connected');
+		const [results] = await conn.query('SELECT * FROM test');
+		console.log('Test query result:', results);
+	} catch (err) {
+		console.error('Unexpected error occurred', err);
+	}
+}
+
+startServer();
 
 // PUBLIC ROUTE
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,4 +51,3 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Unexpected error occurred' });
 });
-
