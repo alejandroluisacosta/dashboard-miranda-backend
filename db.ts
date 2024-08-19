@@ -4,6 +4,6 @@ import 'dotenv/config';
 export const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: process.env.PASSWORD,
+    password: process.env.SQL_PASSWORD,
     database: 'miranda',
 });
