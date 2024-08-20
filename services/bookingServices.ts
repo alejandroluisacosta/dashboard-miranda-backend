@@ -1,33 +1,45 @@
-// import { ObjectId } from "mongodb";
 import Booking from "../interfaces/Booking";
-import BookingModel from '../models/Booking';
+import { connection } from '../db'
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
 export class BookingServices {
 
     static async getBookings(): Promise<Booking[]> {
-        const allBookings: Booking[] =  await BookingModel.find().exec();
-        return allBookings;
+        const [rows] =  await connection.query('SELECT * FROM test');
+        return rows as Booking[];
     }
 
     static async getBooking(id: string): Promise<Booking> {
-        const booking: Booking | null = await BookingModel.findById(id);
-        if (!booking)
+        const [rows] = await connection.query<RowDataPacket[]>('SELECT * FROM users WHERE id = ?', [id])
+        if (!rows.length)
             throw new Error('No booking found');
-        return booking;
+        return rows[0] as Booking;
     }
 
     static async addBooking(booking: Booking): Promise<Booking> {
-        const newBooking = new BookingModel(booking);
-        await newBooking.save();
-        return newBooking;
+        const [result] = await connection.query<ResultSetHeader>('INSERT INTO bookings (name=?, orderDate=?, checkInDate=?, checkOutDate=?, specialRequest=?, roomType=?, status=?, roomId=? VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?))',
+            [booking.name, booking.orderDate, booking.checkInDate, booking.checkOutDate, booking.specialRequest, booking.roomType, booking.status, booking.roomId]
+        )
+
+        const id = result.insertId;
+        return { ...booking, id} as Booking;
     }
 
     static async removeBooking(id: string): Promise<void> {
-       await BookingModel.findByIdAndDelete(id);
+       await connection.query('DELETE FROM bookings WHERE id=?', [id]);
     }
 
     static async modifyBooking(id: string, modifiedBooking: Booking): Promise<Booking> {
-        await BookingModel.findByIdAndUpdate(id, modifiedBooking);
-        return modifiedBooking;
+        await connection.query(
+            'UPDATE bookings SET name=?, orderDate=?, checkInDate=?, checkOutDate=?, specialRequest=?, roomType=?, status=?, roomId=? WHERE id=?',
+            [modifiedBooking.name, modifiedBooking.orderDate, modifiedBooking.checkInDate, modifiedBooking.checkOutDate, modifiedBooking.specialRequest, modifiedBooking.roomType, modifiedBooking.status, modifiedBooking.roomId, id]
+        );
+
+        const [rows] = await connection.query<RowDataPacket[]>('SELECT * FROM bookings WHERE id=?', [id]);
+        if (!rows.length) {
+            throw new Error('Booking update failed')
+        }
+
+        return rows[0] as Booking;
     }
   }
