@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS rooms (
+    -> id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> name VARCHAR(255) NOT NULL,
+    -> roomType VARCHAR(255) NOT NULL,
+    -> amenities VARCHAR(300) NOT NULL,
+    -> rate INT NOT NULL,
+    -> offer INT NOT NULL,
+    -> discount TINYINT,
+    -> description VARCHAR(300),
+    -> status VARCHAR(255) NOT NULL,
+    -> cancellationPolicies VARCHAR(300),
+    -> image VARCHAR(255) NOT NULL
+    -> );
+
+CREATE TABLE IF NOT EXISTS bookings (
+    -> id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> name VARCHAR(255) NOT NULL,
+    -> orderDate VARCHAR(255) NOT NULL,
+    -> checkInDate VARCHAR(255) NOT NULL,
+    -> checkOutDate VARCHAR(255) NOT NULL,
+    -> specialRequest VARCHAR(300),
+    -> roomType VARCHAR(255) NOT NULL,
+    -> status VARCHAR(255) NOT NULL,
+    -> roomId INT,
+    -> FOREIGN KEY (roomId) REFERENCES rooms(id)
+    -> );
+
+CREATE TABLE IF NOT EXISTS users (
+    -> id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> name VARCHAR(255) NOT NULL,
+    -> image VARCHAR(255) NOT NULL,
+    -> incorporatedOn VARCHAR(10) NOT NULL,
+    -> jobDesk VARCHAR(255) NOT NULL,
+    -> schedule VARCHAR(50) NOT NULL,
+    -> phone VARCHAR(15) NOT NULL,
+    -> status VARCHAR(15) NOT NULL,
+    -> role VARCHAR(15) NOT NULL,
+    -> email VARCHAR(255) NOT NULL,
+    -> password VARCHAR(16) NOT NULL);
+
