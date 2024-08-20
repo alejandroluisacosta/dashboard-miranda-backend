@@ -1,32 +1,35 @@
-import mongoose from "mongoose";
 import Room from "../interfaces/Room";
 import RoomModel from '../models/Room';
+import { connection } from "../db";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 
 export class RoomServices {
 
     static async getRooms(): Promise<Room[]> {
-        const allRooms: Room[] = await RoomModel.find().exec();
-        return allRooms;
+        const [rows] = await connection.query('SELECT * FROM rooms');
+        return rows as Room[];
     }
 
     static async getRoom(identifier: string): Promise<Room> {
-        let room: Room | null = null;
+        let rows: Room[] = [];
 
-        if (mongoose.isValidObjectId(identifier)) {
-            room = await RoomModel.findById(identifier)
+        if (typeof identifier === 'number') {
+            const [result] = await connection.query<RowDataPacket[]>('SELECT * FROM rooms WHERE id=?', [identifier]);
+            rows = result as Room[];
         } else {
-            room = await RoomModel.findOne({ roomType: identifier, status: 'Available'});
+            const [result] = await connection.query<RowDataPacket[]>('SELECT * FROM rooms WHERE roomType=? AND status=? LIMIT 1', [identifier, 'Available']);
+            rows = result as Room[];
         }
         
-        if (!room)
-            throw new Error('No room found');
-        return room;
+        return rows[0] as Room;
     }
 
     static async addRoom(room: Room): Promise<Room> {
-        const newRoom = new RoomModel(room);
-        await newRoom.save();
-        return newRoom;
+        const [result] = await connection.query<ResultSetHeader>('INSERT INTO rooms (image, name, roomType, amenities, rate, offer, discount, description, status, cancellationPolicies) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)                          ',
+            [room.image, room.name, room.roomType, room.amenities, room.rate, room.offer, room.discount, room.description, room.status, room.cancellationPolicies]);
+
+        const id = result.insertId;
+        return { ...room, id };
     }
 
     static async removeRoom(id: string): Promise<void> {

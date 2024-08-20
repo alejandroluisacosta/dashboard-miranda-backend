@@ -5,19 +5,18 @@ import { ResultSetHeader, RowDataPacket } from 'mysql2';
 export class BookingServices {
 
     static async getBookings(): Promise<Booking[]> {
-        const [rows] =  await connection.query('SELECT * FROM test');
+        const [rows] =  await connection.query('SELECT * FROM bookings');
         return rows as Booking[];
     }
 
     static async getBooking(id: string): Promise<Booking> {
-        const [rows] = await connection.query<RowDataPacket[]>('SELECT * FROM users WHERE id = ?', [id])
-        if (!rows.length)
-            throw new Error('No booking found');
+        const [rows] = await connection.query<RowDataPacket[]>('SELECT * FROM bookings WHERE id = ?', [id])
+
         return rows[0] as Booking;
     }
 
     static async addBooking(booking: Booking): Promise<Booking> {
-        const [result] = await connection.query<ResultSetHeader>('INSERT INTO bookings (name=?, orderDate=?, checkInDate=?, checkOutDate=?, specialRequest=?, roomType=?, status=?, roomId=? VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?))',
+        const [result] = await connection.query<ResultSetHeader>('INSERT INTO bookings (name, orderDate, checkInDate, checkOutDate, specialRequest, roomType, status, roomId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [booking.name, booking.orderDate, booking.checkInDate, booking.checkOutDate, booking.specialRequest, booking.roomType, booking.status, booking.roomId]
         )
 
@@ -36,9 +35,6 @@ export class BookingServices {
         );
 
         const [rows] = await connection.query<RowDataPacket[]>('SELECT * FROM bookings WHERE id=?', [id]);
-        if (!rows.length) {
-            throw new Error('Booking update failed')
-        }
 
         return rows[0] as Booking;
     }
