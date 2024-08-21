@@ -12,6 +12,9 @@ export class BookingServices {
     static async getBooking(id: string): Promise<Booking> {
         const [rows] = await connection.query<RowDataPacket[]>('SELECT * FROM bookings WHERE id = ?', [id])
 
+        if (!rows[0]) {
+            throw new Error('No booking found');
+        }
         return rows[0] as Booking;
     }
 

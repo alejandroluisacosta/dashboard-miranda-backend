@@ -34,5 +34,4 @@ export class UserServices {
         await UserModel.findByIdAndUpdate(id, modifiedUser);
         return modifiedUser;
     }
-
   }

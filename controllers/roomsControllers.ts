@@ -35,7 +35,7 @@ roomsController.post('/', async (req: Request, res: Response, next: NextFunction
 
 roomsController.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
-        const id: string = req.params.id;
+        const id = parseInt(req.params.id, 10);
         await RoomServices.removeRoom(id);
         return res.status(204).send();
     } catch (error) {
@@ -46,7 +46,7 @@ roomsController.delete('/:id', async (req: Request, res: Response, next: NextFun
 roomsController.put('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const modifiedRoom: Room = req.body;
-        const id = req.params.id;
+        const id = parseInt(req.params.id, 10);
         const updatedRoom: Room = await RoomServices.modifyRoom(id, modifiedRoom);
         return res.status(200).json({ rooms: updatedRoom });
     } catch (error) {

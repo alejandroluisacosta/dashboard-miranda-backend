@@ -7,7 +7,7 @@ import roomsController from './controllers/roomsControllers';
 import usersController from './controllers/usersControllers';
 import commentController from './controllers/commentControllers';
 import mustacheExpress from 'mustache-express'
-import { authenticateTokenMiddleware } from './middleware/auth';
+// import { authenticateTokenMiddleware } from './middleware/auth';
 import { connection } from './db';
 import cors from 'cors';
 
@@ -39,7 +39,7 @@ app.use('/home', (_req, res) => {
 
 app.use('/login', loginController);
   
-app.use(authenticateTokenMiddleware);
+// app.use(authenticateTokenMiddleware);
 app.use('/bookings', bookingController);
 app.use('/rooms', roomsController);
 app.use('/users', usersController);
