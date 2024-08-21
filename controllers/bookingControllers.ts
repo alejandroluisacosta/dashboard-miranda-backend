@@ -29,7 +29,7 @@ bookingController.post('/', async (req: Request, res: Response, next: NextFuncti
     try {
         const newBooking: Booking = req.body as Booking;
         const room: Room = await RoomServices.getRoom(newBooking.roomType);
-        const addedBooking = await BookingServices.addBooking({...newBooking, roomId: room._id});
+        const addedBooking = await BookingServices.addBooking({...newBooking, roomId: room.id});
         return res.status(201).json({ booking: addedBooking });
     } catch (error) {
         next(error);

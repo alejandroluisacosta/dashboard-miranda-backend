@@ -33,7 +33,7 @@ export class RoomServices {
     }
 
     static async removeRoom(id: string): Promise<void> {
-        await RoomModel.findByIdAndDelete(id);
+        await connection.query('DELETE FROM rooms WHERE id=?', [id]);
     }
 
     static async modifyRoom(id: string, modifiedRoom: Room): Promise<Room> {

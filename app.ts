@@ -19,10 +19,8 @@ app.use(cors());
 
 async function startServer() {
 	try {
-		const conn = await connection;
+		await connection;
 		console.log('Database connected');
-		const [results] = await conn.query('SELECT * FROM test');
-		console.log('Test query result:', results);
 	} catch (err) {
 		console.error('Unexpected error occurred', err);
 	}
