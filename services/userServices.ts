@@ -22,8 +22,9 @@ export class UserServices {
         const plainTextPassword: string = user.password;
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(plainTextPassword, saltRounds);
-        const [result] = await connection.query<ResultSetHeader>('INSERT INTO users (name, userName, image, incorporatedON, jobDesk, schedule, phone, status, role, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [user.name, user.userName, user.image, user.incorporatedOn, user.jobDesk, user.schedule, user.phone, user.status, user.role, user.role, user.email, hashedPassword]
+        const [result] = await connection.query<ResultSetHeader>(
+            'INSERT INTO users (name, userName, image, incorporatedOn, jobDesk, schedule, phone, status, role, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [user.name, user.userName, user.image, user.incorporatedOn, user.jobDesk, user.schedule, user.phone, user.status, user.role, user.email, hashedPassword]
         );
         
         const id = result.insertId;
@@ -31,13 +32,13 @@ export class UserServices {
     }
 
     static async removeUser(id: string): Promise<void> {
-        await connection.query('DELETE FROM rooms WHERE id=?', [id]);
+        await connection.query('DELETE FROM users WHERE id=?', [id]);
     }
 
     static async modifyUser(id: string, modifiedUser: User): Promise<User> {
         await connection.query(
-            'UPDATE users SET name=?, userName=?, image=?, incorporatedOn=?, jobDesk=?, schedule=?, phone=?, status=?, role=?, email=?, password=? WHERE id=?',
-            [modifiedUser.name, modifiedUser.userName, modifiedUser.image, modifiedUser.incorporatedOn, modifiedUser.jobDesk, modifiedUser.schedule, modifiedUser.phone, modifiedUser.status, modifiedUser.role, modifiedUser.email, modifiedUser.password, id]
+            'UPDATE users SET name=?, userName=?, image=?, incorporatedOn=?, jobDesk=?, schedule=?, phone=?, status=?, role=?, email=?, WHERE id=?',
+            [modifiedUser.name, modifiedUser.userName, modifiedUser.image, modifiedUser.incorporatedOn, modifiedUser.jobDesk, modifiedUser.schedule, modifiedUser.phone, modifiedUser.status, modifiedUser.role, modifiedUser.email, id]
         );
 
         const [rows] = await connection.query<RowDataPacket[]>('SELECT * FROM users WHERE id=?', [id]);
