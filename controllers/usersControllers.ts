@@ -15,7 +15,7 @@ usersController.get('/', async (_req: Request, res: Response, next: NextFunction
 
 usersController.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
-        const id: string = req.params.id;
+        const id: number = parseInt(req.params.id);
         const user = await UserServices.getUser(id);
         return res.status(200).json({ user });
     } catch (error) {
@@ -35,7 +35,7 @@ usersController.post('/', async (req: Request, res: Response, next: NextFunction
 
 usersController.delete('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
-        const id: string = req.params.id;
+        const id: number = parseInt(req.params.id);
         UserServices.removeUser(id);
         return res.status(204).send();
     } catch (error) {
@@ -46,7 +46,7 @@ usersController.delete('/:id', async (req: Request, res: Response, next: NextFun
 usersController.put('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const modifiedUser: User = req.body;
-        const id = req.params.id;
+        const id: number = parseInt(req.params.id);
         const updatedUser: User = await UserServices.modifyUser(id, modifiedUser);
         return res.status(200).json({ user: updatedUser });
     } catch (error) {

@@ -1,25 +1,78 @@
 import { faker } from '@faker-js/faker'
 import User from './interfaces/User';
 import { UserServices } from './services/userServices';
-import { connectDB } from './db';
+import { connection } from './db';
 import Booking from './interfaces/Booking';
 import { BookingServices } from './services/bookingServices';
 import { RoomServices } from './services/roomServices';
 import Room from './interfaces/Room';
 import Comment from './interfaces/Comment';
 import CommentModel from './models/Comment';
-import mongoose from 'mongoose';
 import 'dotenv/config';
+import { startServer } from './app';
 
 const NUM_BOOKINGS = 200;
 const NUM_COMMENTS = 50;
 const NUM_USERS = 20;
 const NUM_ROOMS = 50;
 
-connectDB().catch(err => console.log(err));
+startServer();
 
 const run = async () => {
-    mongoose.connection.dropDatabase();
+    await connection.query('USE miranda');
+
+    await connection.query('DROP TABLE bookings');
+    await connection.query('DROP TABLE rooms');
+    await connection.query('DROP TABLE users');
+
+    await connection.query(`
+        CREATE TABLE IF NOT EXISTS rooms (
+            id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            roomType VARCHAR(255) NOT NULL,
+            amenities VARCHAR(300) NOT NULL,
+            rate INT NOT NULL,
+            offer VARCHAR(10) NOT NULL,
+            discount TINYINT,
+            description VARCHAR(300),
+            status VARCHAR(255) NOT NULL,
+            cancellationPolicies VARCHAR(300),
+            image VARCHAR(255) NOT NULL
+        );
+    `);
+
+    await connection.query(`
+        CREATE TABLE IF NOT EXISTS bookings (
+            id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            orderDate VARCHAR(255) NOT NULL,
+            checkInDate VARCHAR(255) NOT NULL,
+            checkOutDate VARCHAR(255) NOT NULL,
+            specialRequest VARCHAR(300),
+            roomType VARCHAR(255) NOT NULL,
+            status VARCHAR(255) NOT NULL,
+            roomId INT,
+            FOREIGN KEY (roomId) REFERENCES rooms(id)
+        )
+    `);
+
+    await connection.query(`
+        CREATE TABLE IF NOT EXISTS users (
+            id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            userName VARCHAR(255) NOT NULL,
+            image VARCHAR(255) NOT NULL,
+            incorporatedOn VARCHAR(10) NOT NULL,
+            jobDesk VARCHAR(255) NOT NULL,
+            schedule VARCHAR(50) NOT NULL,
+            phone VARCHAR(30) NOT NULL,
+            status VARCHAR(15) NOT NULL,
+            role VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            password VARCHAR(255) NOT NULL
+        )
+    `);
+
     const createdBookings = [];
     const createdComments = [];
     const createdRooms = [];
@@ -34,7 +87,7 @@ const run = async () => {
 
     for (let i = 0; i < NUM_ROOMS; i++) {
         const roomData: Room = {
-            image: [faker.image.url()],
+            image: faker.image.url(),
             name: faker.person.fullName(),
             roomType: faker.lorem.sentence(3),
             amenities: getRandomAmenities(4),
@@ -55,8 +108,8 @@ const run = async () => {
         checkInDate.setDate(orderDate.getDate() + faker.number.int({ min: 1, max: 10 }));
         const checkOutDate: Date = new Date(checkInDate);
         checkOutDate.setDate(checkInDate.getDate() + faker.number.int({ min: 2, max: 20 }));
-        const roomId: string = (createdRooms[Math.floor(Math.random() * 50)] as { _id: string })._id;
-        const roomType: string = createdRooms.find(room => room._id === roomId)!.roomType as string;
+        const roomId: number = (createdRooms[Math.floor(Math.random() * 50)] as { id: number }).id;
+        const roomType: string = createdRooms.find(room => room.id === roomId)!.roomType as string;
 
         const bookingData: Booking = {
             name: faker.person.fullName(),

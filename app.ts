@@ -17,7 +17,7 @@ export const app = express();
 app.use(express.json());
 app.use(cors());
 
-async function startServer() {
+export async function startServer() {
 	try {
 		await connection;
 		console.log('Database connected');

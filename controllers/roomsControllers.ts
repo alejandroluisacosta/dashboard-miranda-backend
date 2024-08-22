@@ -15,7 +15,7 @@ roomsController.get('/', async (_req: Request, res: Response, next: NextFunction
 
 roomsController.get('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
-        const id: string = req.params.id;
+        const id: number = parseInt(req.params.id);
         const room = await RoomServices.getRoom(id);
         return res.status(200).json({ room });
     } catch (error) {

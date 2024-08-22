@@ -1,6 +1,6 @@
 import User from "../interfaces/User";
 import bcrypt from 'bcryptjs';
-import { connection } from "../db";
+import { connection } from '../db';
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 
 export class UserServices {
@@ -10,8 +10,17 @@ export class UserServices {
         return rows as User[];
     }
 
-    static async getUser(id: string): Promise<User> {
-        const [rows] = await connection.query<RowDataPacket[]>('SELECT * FROM users WHERE id=?', [id]);
+    static async getUser(identifier: number | string): Promise<User> {
+        let rows: User[] = []
+
+        if (typeof identifier === 'number') {
+            const [result] = await connection.query<RowDataPacket[]>('SELECT * FROM users WHERE id=?', [identifier]);
+            rows = result as User[];
+        } else {
+            const [result] = await connection.query<RowDataPacket[]>('SELECT * FROM users WHERE userName=?', [identifier]);
+            rows = result as User[];
+        }
+
         if (!rows[0]) {
             throw new Error('No user found');
         }
@@ -31,11 +40,11 @@ export class UserServices {
         return { ...user, id } as User;
     }
 
-    static async removeUser(id: string): Promise<void> {
+    static async removeUser(id: number): Promise<void> {
         await connection.query('DELETE FROM users WHERE id=?', [id]);
     }
 
-    static async modifyUser(id: string, modifiedUser: User): Promise<User> {
+    static async modifyUser(id: number, modifiedUser: User): Promise<User> {
         await connection.query(
             'UPDATE users SET name=?, userName=?, image=?, incorporatedOn=?, jobDesk=?, schedule=?, phone=?, status=?, role=?, email=?, WHERE id=?',
             [modifiedUser.name, modifiedUser.userName, modifiedUser.image, modifiedUser.incorporatedOn, modifiedUser.jobDesk, modifiedUser.schedule, modifiedUser.phone, modifiedUser.status, modifiedUser.role, modifiedUser.email, id]
