@@ -6,7 +6,7 @@
       checkInDate: string;
       checkOutDate: string;
       specialRequest?: string;
-      roomType: string;
+      roomType: number;
       status: string;
       roomId: number | undefined;
     }

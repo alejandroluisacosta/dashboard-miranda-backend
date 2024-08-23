@@ -1,10 +1,9 @@
 interface Room {
     id?: number;
-    image: string;
     name: string;
-    roomType: string;
-    amenities: string;
+    roomType: number;
     rate: number;
+    amenities: string;
     offer: string
     discount?: number;
     description?: string;

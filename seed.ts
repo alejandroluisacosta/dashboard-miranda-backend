@@ -29,15 +29,14 @@ const run = async () => {
         CREATE TABLE IF NOT EXISTS rooms (
             id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
-            roomType VARCHAR(255) NOT NULL,
-            amenities VARCHAR(300) NOT NULL,
+            roomType INT,
             rate INT NOT NULL,
             offer VARCHAR(10) NOT NULL,
             discount TINYINT,
             description VARCHAR(300),
             status VARCHAR(255) NOT NULL,
             cancellationPolicies VARCHAR(300),
-            image VARCHAR(255) NOT NULL
+            FOREIGN KEY (roomType) REFERENCES room_types(id)
         );
     `);
 
@@ -87,9 +86,8 @@ const run = async () => {
 
     for (let i = 0; i < NUM_ROOMS; i++) {
         const roomData: Room = {
-            image: faker.image.url(),
             name: faker.person.fullName(),
-            roomType: faker.lorem.sentence(3),
+            roomType: faker.number.int({ min: 1, max: 4 }),
             amenities: getRandomAmenities(4),
             rate: faker.number.int(99),
             offer: Math.random() < 0.5 ? 'Yes' : 'No',
@@ -109,7 +107,7 @@ const run = async () => {
         const checkOutDate: Date = new Date(checkInDate);
         checkOutDate.setDate(checkInDate.getDate() + faker.number.int({ min: 2, max: 20 }));
         const roomId: number = (createdRooms[Math.floor(Math.random() * 50)] as { id: number }).id;
-        const roomType: string = createdRooms.find(room => room.id === roomId)!.roomType as string;
+        const roomType: number = createdRooms.find(room => room.id === roomId)!.roomType as number;
 
         const bookingData: Booking = {
             name: faker.person.fullName(),
