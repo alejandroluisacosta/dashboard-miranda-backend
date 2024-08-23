@@ -26,8 +26,8 @@ export class RoomServices {
         if (typeof identifier === 'number') {
             const [result] = await connection.query<RowDataPacket[]>(`
                 SELECT r.*, 
-                       GROUP_CONCAT(i.url ORDER BY i.url ASC) AS images,
-                       GROUP_CONCAT(a.amenity ORDER BY a.amenity ASC) AS amenities
+                       GROUP_CONCAT(DISTINCT i.url ORDER BY i.url ASC) AS images,
+                       GROUP_CONCAT(DISTINCT a.amenity ORDER BY a.amenity ASC) AS amenities
                 FROM rooms r
                 LEFT JOIN room_types_images rti ON r.roomType = rti.roomType
                 LEFT JOIN images i ON rti.imageId = i.id
@@ -41,8 +41,8 @@ export class RoomServices {
         } else {
             const [result] = await connection.query<RowDataPacket[]>(`
                 SELECT r.*, 
-                       GROUP_CONCAT(i.url ORDER BY i.url ASC) AS images,
-                       GROUP_CONCAT(a.amenity ORDER BY a.amenity ASC) AS amenities
+                       GROUP_CONCAT(DISTINCT i.url ORDER BY i.url ASC) AS images,
+                       GROUP_CONCAT(DISTINCT a.amenity ORDER BY a.amenity ASC) AS amenities
                 FROM rooms r
                 LEFT JOIN room_types_images rti ON r.roomType = rti.roomType
                 LEFT JOIN images i ON rti.imageId = i.id
@@ -96,6 +96,23 @@ export class RoomServices {
             'UPDATE rooms SET name=?, roomType=?, rate=?, offer=?, discount=?, description=?, status=?, cancellationPolicies=? WHERE id=?',
             [modifiedRoom.name, modifiedRoom.roomType, modifiedRoom.rate, modifiedRoom.offer, modifiedRoom.discount, modifiedRoom.description, modifiedRoom.status, modifiedRoom.cancellationPolicies, id]
         );
+
+        await connection.query('DELETE FROM rooms_amenities WHERE roomId=?', [id]);
+        
+        const amenities = modifiedRoom.amenities.split(',').map(amenity => amenity.trim());
+        for (const amenity of amenities) {
+            const [amenityResult] = await connection.query<RowDataPacket[]>(
+                'SELECT id FROM amenities WHERE amenity=?',
+                [amenity]
+            );
+            if (amenityResult.length) {
+                const amenityId = amenityResult[0].id;
+                await connection.query(
+                    'INSERT INTO rooms_amenities (roomId, amenityId) VALUES (?, ?)',
+                    [id, amenityId]
+                );
+            }
+        }        
 
         const [rows] = await connection.query<RowDataPacket[]>('SELECT * FROM rooms WHERE id=?', [id]);
 

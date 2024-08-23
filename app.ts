@@ -5,7 +5,6 @@ import 'dotenv/config';
 import loginController from './controllers/loginController';
 import roomsController from './controllers/roomsControllers';
 import usersController from './controllers/usersControllers';
-import commentController from './controllers/commentControllers';
 import mustacheExpress from 'mustache-express'
 // import { authenticateTokenMiddleware } from './middleware/auth';
 import { connection } from './db';
@@ -43,7 +42,6 @@ app.use('/login', loginController);
 app.use('/bookings', bookingController);
 app.use('/rooms', roomsController);
 app.use('/users', usersController);
-app.use('/contact', commentController);
 
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err.stack);
