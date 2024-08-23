@@ -1,6 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { RoomServices } from '../services/roomServices';
 import Room from '../interfaces/Room';
+import createValidationMiddleware from '../middleware/validation';
+import roomSchema from '../validators/room';
 
 const roomsController = express.Router();
 
@@ -23,7 +25,7 @@ roomsController.get('/:id', async (req: Request, res: Response, next: NextFuncti
     }
 })
 
-roomsController.post('/', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
+roomsController.post('/', createValidationMiddleware(roomSchema), async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const newRoom: Room = req.body as Room;
         const addedRoom = await RoomServices.addRoom(newRoom);
@@ -43,7 +45,7 @@ roomsController.delete('/:id', async (req: Request, res: Response, next: NextFun
     }
 })
 
-roomsController.put('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
+roomsController.put('/:id', createValidationMiddleware(roomSchema), async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void> => {
     try {
         const modifiedRoom: Room = req.body;
         const id = parseInt(req.params.id, 10);
