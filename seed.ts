@@ -95,6 +95,7 @@ const run = async () => {
             description: faker.lorem.sentence(6),
             status: Math.random() < 0.5 ? 'Available' : 'Booked',
             cancellationPolicies: faker.lorem.sentence(4),
+            images: ['url1', 'url2'],
             }
             const newRoom = await RoomServices.addRoom(roomData);
             createdRooms.push(newRoom);

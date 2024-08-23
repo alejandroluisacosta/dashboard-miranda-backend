@@ -9,6 +9,7 @@ interface Room {
     description?: string;
     status: 'Available' | 'Booked';
     cancellationPolicies?: string;
+    images: string[];
   }
 
   export default Room;

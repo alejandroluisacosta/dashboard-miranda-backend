@@ -7,8 +7,8 @@ export class RoomServices {
     static async getRooms(): Promise<Room[]> {
         const [rows] = await connection.query(`
             SELECT r.*, 
-                   GROUP_CONCAT(i.url ORDER BY i.url ASC) AS images,
-                   GROUP_CONCAT(a.amenity ORDER BY a.amenity ASC) AS amenities
+                   GROUP_CONCAT(DISTINCT i.url ORDER BY i.url ASC) AS images,
+                   GROUP_CONCAT(DISTINCT a.amenity ORDER BY a.amenity ASC) AS amenities
             FROM rooms r
             LEFT JOIN room_types_images rti ON r.roomType = rti.roomType
             LEFT JOIN images i ON rti.imageId = i.id
@@ -66,8 +66,25 @@ export class RoomServices {
         const [result] = await connection.query<ResultSetHeader>('INSERT INTO rooms (name, roomType, rate, offer, discount, description, status, cancellationPolicies) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)',
             [room.name, room.roomType, room.rate, room.offer, room.discount, room.description, room.status, room.cancellationPolicies]);
 
-        const id = result.insertId;
-        return { ...room, id };
+        const roomId = result.insertId;
+
+        const amenities = room.amenities.split(',').map(amenity => amenity.trim());
+
+        for (const amenity of amenities) {
+            const [amenityResult] = await connection.query<RowDataPacket[]>(
+                'SELECT id FROM amenities WHERE amenity=?',
+                [amenity]
+            );
+            if (amenityResult.length) {
+                const amenityId = amenityResult[0].id;
+                await connection.query(
+                    'INSERT INTO rooms_amenities (roomId, amenityId) VALUES (?, ?)',
+                    [roomId, amenityId]
+                );
+            }
+        }
+
+        return { ...room, id: roomId };
     }
 
     static async removeRoom(id: number): Promise<void> {
