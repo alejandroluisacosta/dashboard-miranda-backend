@@ -3,6 +3,8 @@ import { BookingServices } from '../services/bookingServices';
 import Booking from '../interfaces/Booking';
 import Room from '../interfaces/Room';
 import { RoomServices } from '../services/roomServices';
+import createValidationMiddleware from '../middleware/validation';
+import bookingSchema from '../validators/booking';
 
 const bookingController = express.Router();
 
@@ -25,7 +27,7 @@ bookingController.get('/:id', async (req: Request, res: Response, next: NextFunc
     }
 });
 
-bookingController.post('/', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
+bookingController.post('/', createValidationMiddleware(bookingSchema), async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
         const newBooking: Booking = req.body as Booking;
         const room: Room = await RoomServices.getRoom(newBooking.roomType);
@@ -46,7 +48,7 @@ bookingController.delete('/:id', async (req: Request, res: Response, next: NextF
     }
 });
 
-bookingController.put('/:id', async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
+bookingController.put('/:id', createValidationMiddleware(bookingSchema), async (req: Request, res: Response, next: NextFunction): Promise<Response<JSON> | void > => {
     try {
         const id: string = req.params.id;
         const modifiedBooking: Booking = req.body;
