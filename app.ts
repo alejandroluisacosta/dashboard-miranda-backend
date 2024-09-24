@@ -10,6 +10,7 @@ import mustacheExpress from 'mustache-express'
 import { authenticateTokenMiddleware } from './middleware/auth';
 import { connectDB } from './db';
 import cors from 'cors';
+import fs from 'fs';
 
 process.env.TOKEN_SECRET;
 
@@ -35,6 +36,12 @@ app.engine('mustache', mustacheExpress());
 app.use('/home', (_req, res) => {
     res.render('index');
   })
+
+// CI/CD test route
+app.get('/timestamp', (_req: Request, res: Response, next: NextFunction) => {
+    const timestamp = fs.readFileSync('timestamp.txt').toString();
+    return res.json({timestamp});
+});
 
 app.use('/login', loginController);
   

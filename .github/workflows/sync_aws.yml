@@ -40,3 +40,6 @@ jobs:
           SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
           MONGO_STRING: ${{ secrets.MONGO_STRING }}
+
+      - name: Create Timestamp File
+        run: date > timestamp.txt
