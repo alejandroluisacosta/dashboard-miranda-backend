@@ -38,7 +38,7 @@ app.use('/home', (_req, res) => {
   })
 
 // CI/CD test route
-app.get('/timestamp', (_req: Request, res: Response, next: NextFunction) => {
+app.get('/timestamp', (_req: Request, res: Response, _next: NextFunction) => {
     const timestamp = fs.readFileSync('timestamp.txt').toString();
     return res.json({timestamp});
 });
