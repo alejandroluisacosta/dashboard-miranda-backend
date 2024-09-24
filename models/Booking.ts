@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import Booking from "../interfaces/Booking";
+import Booking from "../interfaces/booking";
 
 const BookingSchema = new Schema<Booking>({
     name: { type: String, required: true },

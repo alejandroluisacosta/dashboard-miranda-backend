@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import User from './interfaces/User';
 import { UserServices } from './services/userServices';
 import { connectDB } from './db';
-import Booking from './interfaces/Booking';
+import Booking from './interfaces/booking';
 import { BookingServices } from './services/bookingServices';
 import { RoomServices } from './services/roomServices';
 import Room from './interfaces/Room';

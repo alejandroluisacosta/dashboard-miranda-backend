@@ -1,5 +1,5 @@
 // import { ObjectId } from "mongodb";
-import Booking from "../interfaces/Booking";
+import Booking from "../interfaces/booking";
 import BookingModel from '../models/Booking';
 
 export class BookingServices {

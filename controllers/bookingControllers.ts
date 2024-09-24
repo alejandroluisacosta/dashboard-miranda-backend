@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { BookingServices } from '../services/bookingServices';
-import Booking from '../interfaces/Booking';
+import Booking from '../interfaces/booking';
 import Room from '../interfaces/Room';
 import { RoomServices } from '../services/roomServices';
 
