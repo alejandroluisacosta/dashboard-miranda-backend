@@ -36,3 +36,6 @@ jobs:
         uses: serverless/github-action@v3.2
         with:
           args: deploy
+        env:
+          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+          MONGO_STRING: ${{ secrets.MONGO_STRING }}
