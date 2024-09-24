@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import Room from "../interfaces/Room";
+import Room from "../interfaces/room";
 
 const RoomSchema = new Schema<Room>({
     image: { type: [String], required: true },

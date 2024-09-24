@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { BookingServices } from '../services/bookingServices';
 import Booking from '../interfaces/booking';
-import Room from '../interfaces/Room';
+import Room from '../interfaces/room';
 import { RoomServices } from '../services/roomServices';
 
 const bookingController = express.Router();

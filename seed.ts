@@ -1,12 +1,12 @@
 import { faker } from '@faker-js/faker'
-import User from './interfaces/User';
+import User from './interfaces/user';
 import { UserServices } from './services/userServices';
 import { connectDB } from './db';
 import Booking from './interfaces/booking';
 import { BookingServices } from './services/bookingServices';
 import { RoomServices } from './services/roomServices';
-import Room from './interfaces/Room';
-import Comment from './interfaces/Comment';
+import Room from './interfaces/room';
+import Comment from './interfaces/comment';
 import CommentModel from './models/Comment';
 import mongoose from 'mongoose';
 import 'dotenv/config';

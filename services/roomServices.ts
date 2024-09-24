@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Room from "../interfaces/Room";
+import Room from "../interfaces/room";
 import RoomModel from '../models/Room';
 
 export class RoomServices {

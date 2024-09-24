@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import Comment from "../interfaces/Comment";
+import Comment from "../interfaces/comment";
 
 const CommentSchema = new Schema<Comment>({
     text: { type: String, required: true },

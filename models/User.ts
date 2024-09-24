@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import User from '../interfaces/User'
+import User from '../interfaces/user'
 
 const UserSchema = new Schema<User>({
     name: { type: String, required: true },

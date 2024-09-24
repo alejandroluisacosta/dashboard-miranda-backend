@@ -1,4 +1,4 @@
-import User from "../interfaces/User";
+import User from "../interfaces/user";
 import UserModel from '../models/User';
 import bcrypt from 'bcryptjs';
 
