@@ -3,7 +3,6 @@ import { BookingServices } from '../services/bookingServices';
 import Booking from '../interfaces/Booking';
 import Room from '../interfaces/Room';
 import { RoomServices } from '../services/roomServices';
-// import { ObjectId } from 'mongodb';
 
 const bookingController = express.Router();
 
